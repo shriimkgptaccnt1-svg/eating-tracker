@@ -1,0 +1,87 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Pink food tab</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:24px;width:1160px}
+section{margin-bottom:30px} section>h1{font-size:19px;margin-bottom:4px} section>.sub{font-size:13px;opacity:.75;margin-bottom:16px;max-width:1000px}
+.grid{display:flex;gap:26px;align-items:flex-start}
+.opt{width:340px}.opt h2{font-size:15px;margin-bottom:4px}.opt p{font-size:12px;opacity:.75;margin-bottom:12px;min-height:48px}
+.phone{width:340px;height:690px;border-radius:34px;overflow:hidden;border:8px solid #111;display:flex;flex-direction:column;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.bar{display:flex;align-items:center;gap:8px;padding:26px 14px 12px}
+.date{font-weight:700;font-size:16px}.arr{font-size:20px;opacity:.75}
+.icons{margin-left:auto;display:flex;gap:7px}
+.ic{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%}
+.tabs{display:flex;gap:4px;margin:0 14px 12px;border-radius:12px;padding:3px}
+.tab{flex:1;text-align:center;font-size:13px;font-weight:700;padding:7px 0;border-radius:9px}
+.cols{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.6px;text-transform:uppercase;padding:14px 16px 6px;opacity:.6}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:15px;border-top:1px solid rgba(90,21,48,.1)}
+.row .c{opacity:.55;font-size:13px}.row.ph{opacity:.4}
+.row.active{border-radius:12px;margin:3px 8px;padding-left:8px;padding-right:8px;border-top-color:transparent}
+.cur{display:inline-block;width:2px;height:17px;margin-left:1px;vertical-align:-3px}
+.tick{position:absolute;right:18px;bottom:22px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}
+.wbox{position:absolute;left:18px;bottom:22px;height:54px;min-width:104px;border-radius:16px;background:#fff;padding:7px 14px;display:flex;flex-direction:column;justify-content:center;border:1px solid #F6D3DC}
+.wbox .l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;opacity:.55}.wbox .v{font-size:18px;font-weight:700;color:#1E8E45}
+.kg{font-size:12px;opacity:.6;color:#1C1C1E;font-weight:600}
+.dots{display:flex;gap:5px;justify-content:center;position:absolute;bottom:8px;left:0;right:0}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.18)}.dots i.on{background:rgba(0,0,0,.5)}
+/* habits */
+.prog{margin:12px 16px 6px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700}
+.pbar{flex:1;height:8px;border-radius:4px;background:rgba(16,47,21,.12);overflow:hidden}.pbar b{display:block;height:100%;background:#728C5A;border-radius:4px}
+.sec{font-size:10px;letter-spacing:.6px;text-transform:uppercase;opacity:.55;padding:10px 16px 4px;font-weight:600}
+.hrow{display:flex;align-items:center;gap:12px;margin:4px 12px;padding:10px 12px;border-radius:14px;background:#fff;font-size:14px;font-weight:600}
+.hrow .chk{width:26px;height:26px;border-radius:50%;border:2px solid #728C5A;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#EAF1B1;font-weight:800;margin-left:auto}
+.hrow.done{background:#102F15;color:#EAF1B1}.hrow.done .chk{background:#728C5A;border-color:#728C5A}
+/* D5 */
+.dhead{display:flex;align-items:center;padding:26px 14px 12px;background:#102F15;color:#EAF1B1}.dhead .t{flex:1;text-align:center;font-weight:700;font-size:15px}
+.hero{display:flex;align-items:center;gap:12px;margin:12px 12px 4px;background:#102F15;color:#EAF1B1;border-radius:16px;padding:12px 14px}
+.hero .n{font-size:30px;font-weight:800}.hero .l{font-size:11px;opacity:.85;line-height:1.35}.hero .l b{color:#fff}
+.card{margin:8px 12px 0;background:#fff;border-radius:16px;padding:10px}
+.ctitle{font-size:11px;font-weight:700;opacity:.6;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.ws{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid #EBFADC;font-size:12px;font-weight:600}
+.ws .nm{width:112px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ws .nm small{display:block;font-size:9px;opacity:.55;font-weight:600}
+.ws .pills{flex:1;display:flex;gap:3px}
+.ws .pill{flex:1;height:16px;border-radius:4px;background:#EBFADC;overflow:hidden;position:relative}
+.ws .pill b{position:absolute;left:0;top:0;bottom:0;background:#728C5A}.ws .pill.full b{background:#102F15}
+.ws .pill.cur{outline:1.5px solid #102F15;outline-offset:-1.5px}
+.ws .pc{width:34px;text-align:right;font-size:11px;font-weight:800}
+.legend{display:flex;gap:10px;font-size:9.5px;opacity:.75;margin-top:8px;flex-wrap:wrap}
+.sw{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:-1px;margin-right:3px}
+</style></head><body><div id="root"></div>
+<script>
+const calIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>`;
+const graphIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-6"/></svg>`;
+const statsIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V13M10 20V7M15 20v-9M20 20V4"/></svg>`;
+const dots=i=>`<div class="dots"><i class="${i===0?'on':''}"></i><i class="${i===1?'on':''}"></i></div>`;
+const R=(f,c,cls='',st='')=>`<div class="row ${cls}" style="${st}"><span>${f}</span><span class="c">${c}</span></div>`;
+// theme: header bg, ink, icon circle bg, tab track, active tab, active-tab ink, other-tab ink, body bg, active row, cursor, tick
+function food(t){return `<div class="phone" style="background:${t.body};color:#3A0F20">
+ <div style="background:${t.head}"><div class="bar" style="color:${t.ink}"><span class="arr">‹</span><span class="date">Fri, 23 Oct</span><span class="arr">›</span>
+ <div class="icons">${[calIcon,graphIcon,statsIcon].map(f=>`<div class="ic" style="background:${t.icBg}">${f(t.ink)}</div>`).join('')}</div></div>
+ <div class="tabs" style="background:${t.track}"><span class="tab" style="background:#fff;color:${t.tabOn}">Food</span><span class="tab" style="color:${t.tabOff}">Habits <span style="opacity:.7;font-size:11px">6/9</span></span></div></div>
+ <div class="cols"><span>What I ate</span><span>Cost</span></div>
+ ${R('Chicken biryani','320')}${R('Lassi','optional')}${R(`Gulab jam<span class="cur" style="background:${t.cursor}"></span>`,'optional','active',`background:${t.activeRow};${t.activeExtra||''}`)}
+ <div class="wbox"><div class="l">Weight</div><div class="v">72.4 <span class="kg">kg</span></div></div><div class="tick" style="background:${t.tick}">✓</div>${dots(0)}</div>`}
+const P1=food({head:'linear-gradient(90deg,#F3A8BB,#F8BF80)',ink:'#5A1530',icBg:'rgba(255,255,255,.45)',track:'rgba(255,255,255,.35)',tabOn:'#ED4D8B',tabOff:'#5A1530',body:'#FCF1F0',activeRow:'#fff',activeExtra:'box-shadow:0 2px 8px rgba(237,77,139,.15);border:1.5px solid #F3A8BB',cursor:'#ED4D8B',tick:'#ED4D8B'});
+const P2=food({head:'#ED4D8B',ink:'#fff',icBg:'rgba(255,255,255,.22)',track:'rgba(255,255,255,.2)',tabOn:'#ED4D8B',tabOff:'rgba(255,255,255,.9)',body:'#FCF1F0',activeRow:'#FBD9B4',cursor:'#ED4D8B',tick:'#ED4D8B'});
+const hab=`<div class="phone" style="background:#EBFADC;color:#102F15"><div style="background:#102F15"><div class="bar" style="color:#fff"><span class="arr">‹</span><span class="date">Fri, 23 Oct</span><span class="arr">›</span>
+ <div class="icons">${[calIcon,graphIcon,statsIcon].map(f=>`<div class="ic" style="background:rgba(255,255,255,.22)">${f('#fff')}</div>`).join('')}</div></div>
+ <div class="tabs" style="background:rgba(255,255,255,.18)"><span class="tab" style="color:rgba(255,255,255,.85)">Food</span><span class="tab" style="background:#fff;color:#102F15">Habits <span style="opacity:.6;font-size:11px">6/9</span></span></div></div>
+ <div class="prog"><span>6 of 9 today</span><div class="pbar"><b style="width:66%"></b></div><span style="background:#102F15;color:#EAF1B1;padding:6px 11px;border-radius:999px;font-size:11px">✎ Edit</span></div>
+ <div class="sec">Daily</div>${['Sleep from 12 to 8|1','Morning manifest|1','Reading for 30 mins|0','Healthy diet|1','Goal journaling|0','Vitamins|1'].map(x=>{const[n,d]=x.split('|');return `<div class="hrow ${d==='1'?'done':''}"><span>${n}</span><span class="chk">${d==='1'?'✓':''}</span></div>`}).join('')}
+ <div class="sec">Weekly</div><div class="hrow done"><span>Workout</span><span style="margin-left:auto;font-size:11px;opacity:.8">3/5 this week</span><span class="chk" style="margin-left:0">✓</span></div>${dots(1)}</div>`;
+// D5 final
+const rows=[['Sleep 12–8','daily',[1,.86,.71,.8],87],['Manifest','daily',[.5,.86,1,.8],83],['Workout','5× a week',[1,1,.6,.6],94],['Reading','daily',[.5,.29,.57,.6],48],['Fam & friends','5× a week',[1,.6,1,.75],94],['Healthy diet','daily',[.5,1,.71,1],83],['Journaling','daily',[.25,.43,.57,.2],48],['Vitamins','daily',[1,.86,.86,.8],87],['Hobbies','1× a week',[1,1,1,1],100]];
+const D5=`<div class="phone" style="background:#EBFADC;color:#102F15"><div class="dhead"><span style="font-size:13px;font-weight:600">‹ Back</span><span class="t">‹ &nbsp;Habits · October&nbsp; ›</span><span style="width:38px"></span></div>
+ <div class="hero"><div class="n">80%</div><div class="l"><b>of habit targets hit in October</b><br>▲ 6% vs September<br>best: Hobbies · 100%</div></div>
+ <div class="card"><div class="ctitle" style="display:flex;gap:8px"><span style="width:112px">Habit</span><span style="flex:1;display:flex;justify-content:space-around"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span></span><span style="width:34px;text-align:right">Oct</span></div>
+ ${rows.map(([n,f,w,p])=>`<div class="ws"><span class="nm">${n}<small>${f}</small></span><span class="pills">${w.map((v,i)=>`<span class="pill ${v>=1?'full':''} ${i===3?'cur':''}"><b style="width:${v*100}%"></b></span>`).join('')}<span class="pill" style="background:transparent;outline:1px dashed rgba(16,47,21,.18);outline-offset:-1px"></span></span><span class="pc">${p}%</span></div>`).join('')}
+ <div class="legend"><span><span class="sw" style="background:#102F15"></span>target met</span><span><span class="sw" style="background:#728C5A"></span>part of target</span><span><span class="sw" style="background:#fff;outline:1.5px solid #102F15;outline-offset:-1.5px"></span>this week (so far)</span></div>
+ <div class="legend" style="margin-top:4px">W1 = 1–4 Oct · W5 = 26–31 Oct (still to come) · tap a habit to see its days</div></div></div>`;
+const sec=(t,s,cards)=>`<section><h1>${t}</h1><div class="sub">${s}</div><div class="grid">${cards.map(([h,p,ph])=>`<div class="opt"><h2>${h}</h2><p>${p}</p>${ph}</div>`).join('')}</div></section>`;
+document.getElementById('root').innerHTML=
+ sec('1 · Food tab in the pink palette (pick one)','Food, the calendar and the weight graph now all share the pink palette. The background is flat blush (#FCF1F0) with no gradient, and the weight number stays green to match the calendar.',
+  [['P1: Pink-to-peach bar','The same bar as the calendar and weight screens, so all three food and weight screens match exactly. The active row is a white card with a pink outline.',P1],
+   ['P2: Solid dark pink bar','A bolder dark-pink (#ED4D8B) bar with white text, the same pink as the bottom of the calendar. The active row is peach.',P2],
+   ['Habits tab (unchanged)','For comparison: swiping left now takes you from pink to green.',hab]])+
+ sec('2 · Habit dashboard: D5 week strips (final)','Opened from the stats icon. The bar for the current week (W4) has a dark outline because the week is still in progress.',
+  [['D5: Week strips','One row per habit with its type underneath (daily, 5× a week…), a bar for each week filled by how much of that week’s target you hit, and the month % on the right.',D5]]);
+</script></body></html>
