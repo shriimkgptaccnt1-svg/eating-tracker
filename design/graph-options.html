@@ -1,0 +1,86 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Weight graph mockups</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:24px;width:1340px}
+section{margin-bottom:34px} section>h1{font-size:19px;margin-bottom:4px} section>.sub{font-size:13px;opacity:.75;margin-bottom:16px;max-width:900px}
+.grid{display:flex;gap:26px;align-items:flex-start}
+.opt{width:330px}.opt h2{font-size:15px;margin-bottom:4px}.opt p{font-size:12px;opacity:.75;margin-bottom:12px;min-height:48px}
+.phone{width:330px;height:660px;border-radius:34px;overflow:hidden;border:8px solid #111;display:flex;flex-direction:column;color:#1C1C1E;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.log{background:linear-gradient(180deg,#A9F1FF 0%,#C9D3FE 100%)}
+.bar{display:flex;align-items:center;gap:10px;padding:24px 16px 14px;background:#6F88FC;color:#fff}
+.date{font-weight:700;font-size:17px}.arr{font-size:22px;opacity:.75}
+.icons{margin-left:auto;display:flex;gap:8px}
+.ic{display:flex;align-items:center;justify-content:center;width:34px;height:34px}
+.ic.round{background:rgba(255,255,255,.22);border-radius:50%}
+.ic.pill{background:#fff;border-radius:10px}
+.cols{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.6px;text-transform:uppercase;padding:12px 16px 6px;opacity:.6}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:15px;border-top:1px solid rgba(0,0,0,.1)}
+.row .c{opacity:.55;font-size:13px}.row.ph{opacity:.4}
+.tick{position:absolute;right:18px;bottom:18px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700;background:#A163F7}
+.wbox{position:absolute;left:18px;bottom:18px;height:54px;min-width:104px;border-radius:16px;background:#FFFFF0;padding:7px 14px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 3px 10px rgba(60,60,140,.15)}
+.wbox .l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;opacity:.55}.wbox .v{font-size:18px;font-weight:700;color:#1E8E45}
+.g{background:#FCF1F0}
+.mtab{display:flex;align-items:center;padding:22px 14px 12px;background:linear-gradient(90deg,#F3A8BB,#F8BF80);color:#5A1530}.mtab .t{flex:1;text-align:center;font-weight:700;font-size:16px}
+.chips{display:flex;gap:6px;justify-content:center;padding:12px 0 4px}
+.chip{font-size:11px;font-weight:600;padding:5px 11px;border-radius:999px;background:#fff;color:#5A1530;border:1px solid #F3A8BB}
+.chip.on{background:#ED4D8B;color:#fff;border-color:#ED4D8B}
+.hero{text-align:center;padding:6px 0 0}.hero .n{font-size:34px;font-weight:800;color:#1C1C1E}.hero .n small{font-size:15px;font-weight:600;opacity:.55}
+.hero .d{font-size:12px;font-weight:700;color:#1E8E45}
+.card{margin:8px 10px 0;background:#fff;border-radius:14px;border:1px solid #F6D3DC;padding:6px 4px 4px}
+.sum{flex:1;background:#ED4D8B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:10px}
+.stats{display:flex;gap:7px}.stat{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 10px;text-align:center;min-width:64px}
+.stat .n{font-size:16px;font-weight:700}.stat .l{font-size:10px;opacity:.85}
+.list{margin:8px 10px 0;background:#fff;border-radius:14px;border:1px solid #F6D3DC;overflow:hidden}
+.li{display:flex;justify-content:space-between;padding:8px 12px;font-size:12px;border-top:1px solid #FBE3E9}.li:first-child{border-top:none}
+.li b{color:#1E8E45}.li .dl{font-size:11px;font-weight:600}
+.tip{position:absolute;background:#5A1530;color:#fff;font-size:10px;font-weight:600;padding:4px 7px;border-radius:7px;white-space:nowrap}
+.leg{display:flex;gap:12px;justify-content:center;font-size:10px;color:#5A1530;opacity:.8;padding:2px 0 2px}
+</style></head><body><div id="root"></div>
+<script>
+const calIcon=(c)=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><circle cx="8" cy="14" r=".6" fill="${c}"/><circle cx="12" cy="14" r=".6" fill="${c}"/><circle cx="16" cy="14" r=".6" fill="${c}"/></svg>`;
+const graphIcon=(c)=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-6"/></svg>`;
+const rows=`<div class="cols"><span>What I ate</span><span>Cost</span></div><div class="row"><span>Chicken biryani</span><span class="c">320</span></div><div class="row"><span>Lassi</span><span class="c">optional</span></div><div class="row ph"><span>Add food…</span><span class="c">optional</span></div>`;
+const logPhone=(cls,col)=>`<div class="phone log"><div class="bar"><span class="arr">‹</span><span class="date">Fri, 23 Oct 2026</span><span class="arr">›</span>
+ <div class="icons"><div class="ic ${cls}">${calIcon(col)}</div><div class="ic ${cls}">${graphIcon(col)}</div></div></div>${rows}
+ <div class="wbox"><div class="l">Weight</div><div class="v">72.4 <span style="font-size:12px;opacity:.6;color:#1C1C1E;font-weight:600">kg</span></div></div><div class="tick">✓</div></div>`;
+
+// October data
+const W={1:73.2,2:73.0,5:72.9,6:73.1,9:72.8,12:72.9,14:73.4,15:73.1,19:72.6,21:72.9,23:72.4};
+const ATE=[2,5,11,14,19,23];
+function chart({w=298,h=190,area=false,ate=false,tipDay=14}){
+  const L=30,R=8,T=14,B=ate?34:22,pw=w-L-R,ph=h-T-B,min=72,max=74;
+  const x=d=>L+(d-1)/30*pw, y=v=>T+(max-v)/(max-min)*ph;
+  const pts=Object.entries(W).map(([d,v])=>[x(+d),y(v),+d,v]);
+  let s=`<svg width="${w}" height="${h}" style="display:block">`;
+  [72,72.5,73,73.5,74].forEach(v=>{s+=`<line x1="${L}" x2="${w-R}" y1="${y(v)}" y2="${y(v)}" stroke="#F6D3DC" stroke-width="1"/><text x="${L-5}" y="${y(v)+3}" font-size="8.5" text-anchor="end" fill="#8A6A74">${v.toFixed(1)}</text>`});
+  [1,8,15,22,29].forEach(d=>{s+=`<text x="${x(d)}" y="${h-(ate?22:6)}" font-size="8.5" text-anchor="middle" fill="#8A6A74">${d} Oct</text>`});
+  const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  if(area) s+=`<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ED4D8B" stop-opacity=".28"/><stop offset="1" stop-color="#ED4D8B" stop-opacity="0"/></linearGradient></defs><path d="${path} L${pts.at(-1)[0]} ${T+ph} L${pts[0][0]} ${T+ph} Z" fill="url(#ag)"/>`;
+  s+=`<path d="${path}" fill="none" stroke="#ED4D8B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach(p=>{const t=p[2]===tipDay;s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${t?5:3.5}" fill="${t?'#ED4D8B':'#fff'}" stroke="${t?'#fff':'#ED4D8B'}" stroke-width="2"/>`});
+  if(ate){ATE.forEach(d=>{s+=`<rect x="${x(d)-3}" y="${h-14}" width="6" height="6" rx="1.5" fill="#F8BF80" stroke="#E08A3C" stroke-width="1"/>`});}
+  const tp=pts.find(p=>p[2]===tipDay);
+  if(tp) s+=`<line x1="${tp[0]}" x2="${tp[0]}" y1="${T}" y2="${T+ph}" stroke="#5A1530" stroke-opacity=".25" stroke-dasharray="3 3"/>`;
+  s+='</svg>';
+  const tip=tp?`<div class="tip" style="left:${tp[0]-34}px;top:${tp[1]-30}px">14 Oct · 73.4 kg</div>`:'';
+  return `<div style="position:relative">${s}${tip}</div>`;
+}
+const head=`<div class="mtab"><span style="font-size:13px;font-weight:600">‹ Log</span><span class="t">Weight</span><span style="width:34px"></span></div>`;
+const chips=`<div class="chips"><span class="chip on">1M</span><span class="chip">3M</span><span class="chip">6M</span><span class="chip">1Y</span><span class="chip">All</span></div>`;
+const hero=`<div class="hero"><div class="n">72.4 <small>kg</small></div><div class="d">▼ 0.8 kg since 1 Oct</div></div>`;
+const stats=`<div class="stats"><div class="stat"><div class="n">72.4</div><div class="l">lowest</div></div><div class="stat"><div class="n">73.4</div><div class="l">highest</div></div><div class="stat"><div class="n">72.9</div><div class="l">average</div></div></div>`;
+const g1=`<div class="phone g">${head}${chips}${hero}<div class="card">${chart({})}</div><div class="sum">${stats}</div></div>`;
+const g2=`<div class="phone g">${head}${chips}${hero}<div class="card">${chart({ate:true})}<div class="leg"><span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#F8BF80;border:1px solid #E08A3C;vertical-align:-1px"></span> day you ate out</span></div></div>
+ <div class="sum"><div style="font-size:13px;font-weight:600;margin-bottom:10px;opacity:.95;padding:0 22px;text-align:center">Weight was 0.2 kg higher, on average, the day after eating out</div>${stats}</div></div>`;
+const entries=[['Fri 23 Oct','72.4','▼ 0.5'],['Wed 21 Oct','72.9','▲ 0.3'],['Mon 19 Oct','72.6','▼ 0.5'],['Thu 15 Oct','73.1','▼ 0.3'],['Wed 14 Oct','73.4','▲ 0.5']];
+const g3=`<div class="phone g">${head}${chips}<div class="hero" style="padding-top:2px"><div class="n" style="font-size:28px">72.4 <small>kg</small></div><div class="d">▼ 0.8 kg since 1 Oct</div></div><div class="card">${chart({area:true,h:170,tipDay:0})}</div>
+ <div class="list">${entries.map(([d,v,c])=>`<div class="li"><span>${d}</span><span><b>${v} kg</b> &nbsp;<span class="dl" style="color:${c.startsWith('▼')?'#1E8E45':'#C93A72'}">${c}</span></span></div>`).join('')}</div><div class="sum" style="margin-top:8px"></div></div>`;
+const sec=(t,s,cards)=>`<section><h1>${t}</h1><div class="sub">${s}</div><div class="grid">${cards.map(([h,p,ph])=>`<div class="opt"><h2>${h}</h2><p>${p}</p>${ph}</div>`).join('')}</div></section>`;
+document.getElementById('root').innerHTML=
+ sec('1 · Icons on the log screen','The “Calendar” text is replaced by two icons: a calendar (opens the calendar) and a graph (opens weight). The weight box is option 2A.',
+  [['Plain white icons','Clean, and the lightest on the eye.',logPhone('','#fff')],['Soft round buttons','Each icon sits in a see-through white circle, so it clearly looks tappable.',logPhone('round','#fff')],['White tiles','White rounded squares with periwinkle icons. They stand out the most.',logPhone('pill','#6F88FC')]])+
+ sec('2 · Weight graph screen (pink theme), pick one','It opens from the graph icon. Tap any dot to see that day’s weight. The 1M / 3M / 6M / 1Y / All buttons change the time range.',
+  [['G1: Simple line','Big current weight and the change for this period, a clean line chart, and lowest / highest / average in the dark pink block.',g1],
+   ['G2: Line + eating-out days','Same as G1, plus small peach marks along the bottom on the days you ate out, so you can see whether eating out moves your weight.',g2],
+   ['G3: Soft area + recent list','A shaded line chart with a list of recent weigh-ins under it, each showing the change from the one before.',g3]]);
+</script></body></html>
