@@ -1,25 +1,21 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { fromKey, monthCells, monthTitle, todayKey, WEEKDAYS } from './dates';
-import { colors } from './theme';
+import { ScreenHeader } from '../components/Header';
+import { fromKey, monthCells, monthTitle, shiftMonth, todayKey, WEEKDAYS } from '../dates';
+import { fmt } from '../numbers';
+import { common, food as t, looks } from '../theme';
 
 const MAX_LINES = 3;
 
-export default function DashboardScreen({ entries, focusKey, onOpenDay, onBack }) {
+// Month view of what was eaten each day, with that day's weight in green at the top-right.
+export default function FoodCalendar({ entries, weights, focusKey, onOpenDay, onBack }) {
   const start = fromKey(focusKey);
   const [ym, setYm] = useState({ y: start.getFullYear(), m: start.getMonth() });
   const cells = monthCells(ym.y, ym.m);
   const today = todayKey();
   const insets = useSafeAreaInsets();
 
-  const shift = (n) => setYm(({ y, m }) => {
-    const d = new Date(y, m + n, 1);
-    return { y: d.getFullYear(), m: d.getMonth() };
-  });
-
-  // Month summary
   const days = cells.filter((k) => k && entries[k]?.length);
   const allItems = days.flatMap((k) => entries[k]);
   const costs = allItems.map((it) => it.cost).filter((c) => c != null);
@@ -30,26 +26,14 @@ export default function DashboardScreen({ entries, focusKey, onOpenDay, onBack }
 
   return (
     <View style={styles.screen}>
-      <LinearGradient
-        colors={colors.monthGradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={[styles.header, { paddingTop: insets.top + 14 }]}
-      >
-        <Pressable hitSlop={12} onPress={onBack}>
-          <Text style={styles.link}>‹ Log</Text>
-        </Pressable>
-        <View style={styles.monthNav}>
-          <Pressable hitSlop={12} onPress={() => shift(-1)}>
-            <Text style={styles.arrow}>‹</Text>
-          </Pressable>
-          <Text style={styles.month}>{monthTitle(ym.y, ym.m)}</Text>
-          <Pressable hitSlop={12} onPress={() => shift(1)}>
-            <Text style={styles.arrow}>›</Text>
-          </Pressable>
-        </View>
-        <View style={styles.headerSpacer} />
-      </LinearGradient>
+      <ScreenHeader
+        look={looks.food}
+        backLabel="‹ Log"
+        onBack={onBack}
+        title={monthTitle(ym.y, ym.m)}
+        onPrev={() => setYm((v) => shiftMonth(v, -1))}
+        onNext={() => setYm((v) => shiftMonth(v, 1))}
+      />
 
       {/* flexGrow lets the pink summary fill whatever space the grid leaves. */}
       <ScrollView style={styles.flex} contentContainerStyle={styles.scrollContent}>
@@ -71,7 +55,10 @@ export default function DashboardScreen({ entries, focusKey, onOpenDay, onBack }
                     onPress={() => onOpenDay(key)}
                     style={[styles.cell, key === today && styles.todayCell]}
                   >
-                    <Text style={styles.dayNum}>{fromKey(key).getDate()}</Text>
+                    <View style={styles.cellTop}>
+                      <Text style={styles.dayNum}>{fromKey(key).getDate()}</Text>
+                      {weights[key] != null && <Text style={styles.weight}>{fmt(weights[key])}</Text>}
+                    </View>
                     {items.slice(0, MAX_LINES).map((it, i) => (
                       <Text key={i} style={styles.item} numberOfLines={1}>{it.food}</Text>
                     ))}
@@ -94,7 +81,7 @@ export default function DashboardScreen({ entries, focusKey, onOpenDay, onBack }
             </View>
             {costs.length > 0 && (
               <View style={styles.stat}>
-                <Text style={styles.statNum}>{formatCost(total)}</Text>
+                <Text style={styles.statNum}>{fmt(total)}</Text>
                 <Text style={styles.statLabel}>spent</Text>
               </View>
             )}
@@ -105,31 +92,25 @@ export default function DashboardScreen({ entries, focusKey, onOpenDay, onBack }
   );
 }
 
-const formatCost = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(2));
-
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  screen: { flex: 1, backgroundColor: colors.summaryBg },
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingBottom: 16 },
-  link: { fontSize: 16, color: colors.monthInk, fontWeight: '600', width: 60 },
-  headerSpacer: { width: 60 },
-  monthNav: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 16 },
-  arrow: { fontSize: 28, color: colors.monthInk, lineHeight: 30 },
-  month: { fontSize: 19, fontWeight: '700', color: colors.monthInk },
+  screen: { flex: 1, backgroundColor: t.dark },
   scrollContent: { flexGrow: 1 },
-  calendar: { backgroundColor: colors.calendarBg, paddingHorizontal: 4, paddingBottom: 8 },
+  calendar: { backgroundColor: t.bg, paddingHorizontal: 4, paddingBottom: 8 },
   weekRow: { flexDirection: 'row' },
-  weekday: { flex: 1, textAlign: 'center', fontSize: 11, color: colors.muted, paddingVertical: 6 },
+  weekday: { flex: 1, textAlign: 'center', fontSize: 11, color: common.muted, paddingVertical: 6 },
   cell: {
     flex: 1, minHeight: 86, padding: 3, margin: 1, borderRadius: 6,
-    backgroundColor: colors.cell, borderWidth: 1, borderColor: colors.cellLine,
+    backgroundColor: t.cell, borderWidth: 1, borderColor: t.cellLine,
   },
   blankCell: { backgroundColor: 'transparent', borderColor: 'transparent' },
-  todayCell: { backgroundColor: colors.todayBg, borderColor: colors.todayLine },
-  dayNum: { fontSize: 12, fontWeight: '600', color: colors.muted, marginBottom: 2 },
-  item: { fontSize: 10, color: colors.text, lineHeight: 13 },
-  more: { fontSize: 9, color: colors.muted, marginTop: 1 },
-  summary: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 24, backgroundColor: colors.summaryBg },
+  todayCell: { backgroundColor: t.todayBg, borderColor: t.peachLine },
+  cellTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 },
+  dayNum: { fontSize: 12, fontWeight: '600', color: common.muted },
+  weight: { fontSize: 10, fontWeight: '800', color: t.weight, letterSpacing: -0.2 },
+  item: { fontSize: 10, color: t.text, lineHeight: 13 },
+  more: { fontSize: 9, color: common.muted, marginTop: 1 },
+  summary: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 24, backgroundColor: t.dark },
   summaryBig: { fontSize: 20, fontWeight: '700', color: '#fff' },
   stats: { flexDirection: 'row', gap: 10, marginTop: 12 },
   stat: { backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 12, paddingVertical: 8, paddingHorizontal: 16, alignItems: 'center' },

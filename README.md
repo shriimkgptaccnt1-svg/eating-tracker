@@ -1,12 +1,15 @@
 # Eat Out
 
-Two-screen tracker for food eaten outside.
+Daily tracker with three swipeable tabs, all sharing one date (use ‹ › to change the day, and tap the date to jump back to today).
 
-- **Log**: opens on today with the cursor ready. Type a food and press Enter for the next line. Cost is optional. Tap ✓ to save.
-  Use ‹ › to change the day, and tap the date to jump back to today.
-- **Calendar**: a month view showing what you ate each day. Tap a day to view or edit it.
+- **Food** (pink): what you ate, with an optional cost, plus your weight. Type a food and press Enter for the next line, then tap ✓ to save.
+  The icons open the **food calendar** (meals and weight for each day) and the **weight graph** (with eating-out days marked).
+- **Habits** (green): tap a habit to tick it. Weekly habits show their count for the week. **✎ Edit** lets you add, rename, change targets, delete or drag to reorder.
+  The stats icon opens the **habit dashboard**, with week strips and the month score.
+- **Workout** (blue): Exercise | Sets | kg | Reps. A row with no exercise name counts as more sets of the exercise above.
+  Logging a workout ticks the Workout habit. The calendar icon shows which days you worked out.
 
-Data is stored on the phone (AsyncStorage).
+Everything is stored on the phone (AsyncStorage).
 
 ## Run
 
