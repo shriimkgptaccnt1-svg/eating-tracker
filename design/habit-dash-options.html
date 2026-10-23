@@ -1,0 +1,138 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Habit dashboard mockups</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:24px;width:1160px}
+section{margin-bottom:30px} section>h1{font-size:19px;margin-bottom:4px} section>.sub{font-size:13px;opacity:.75;margin-bottom:16px;max-width:1000px}
+.grid{display:flex;gap:26px;align-items:flex-start}
+.opt{width:340px}.opt h2{font-size:15px;margin-bottom:4px}.opt p{font-size:12px;opacity:.75;margin-bottom:12px;min-height:64px}
+.phone{width:340px;height:700px;border-radius:34px;overflow:hidden;border:8px solid #111;display:flex;flex-direction:column;color:#102F15;position:relative;background:#EBFADC;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.bar{display:flex;align-items:center;gap:8px;padding:26px 14px 12px;color:#fff}
+.date{font-weight:700;font-size:16px}.arr{font-size:20px;opacity:.75}
+.icons{margin-left:auto;display:flex;gap:7px}
+.ic{display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,.22);border-radius:50%}
+.ic.new{background:#EAF1B1;box-shadow:0 0 0 3px rgba(234,241,177,.35)}
+.tabs{display:flex;gap:4px;margin:0 14px 12px;background:rgba(255,255,255,.18);border-radius:12px;padding:3px}
+.tab{flex:1;text-align:center;font-size:13px;font-weight:700;padding:7px 0;border-radius:9px;color:rgba(255,255,255,.85)}.tab.on{background:#fff;color:#102F15}
+.prog{margin:12px 16px 6px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700}
+.pbar{flex:1;height:8px;border-radius:4px;background:rgba(16,47,21,.12);overflow:hidden}.pbar b{display:block;height:100%;background:#728C5A;border-radius:4px}
+.sec{font-size:10px;letter-spacing:.6px;text-transform:uppercase;opacity:.55;padding:10px 16px 4px;font-weight:600}
+.hrow{display:flex;align-items:center;gap:12px;margin:4px 12px;padding:10px 12px;border-radius:14px;background:#fff;font-size:14px;font-weight:600}
+.hrow .chk{width:26px;height:26px;border-radius:50%;border:2px solid #728C5A;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#EAF1B1;font-weight:800;margin-left:auto}
+.hrow.done{background:#102F15;color:#EAF1B1}.hrow.done .chk{background:#728C5A;border-color:#728C5A}
+.callout{position:absolute;top:4px;right:10px;background:#EAF1B1;color:#102F15;font-size:11px;font-weight:700;padding:6px 9px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+/* dashboard */
+.dhead{display:flex;align-items:center;padding:26px 14px 12px;background:#102F15;color:#EAF1B1}
+.dhead .t{flex:1;text-align:center;font-weight:700;font-size:15px}
+.hero{display:flex;align-items:center;gap:12px;margin:12px 12px 4px;background:#102F15;color:#EAF1B1;border-radius:16px;padding:12px 14px}
+.hero .n{font-size:30px;font-weight:800}.hero .l{font-size:11px;opacity:.85;line-height:1.35}
+.hero .l b{color:#fff}
+.card{margin:8px 12px 0;background:#fff;border-radius:16px;padding:10px}
+.ctitle{font-size:11px;font-weight:700;opacity:.6;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 4px}
+.ring{display:flex;flex-direction:column;align-items:center;text-align:center;font-size:10px;font-weight:600;line-height:1.2}
+.ring .nm{margin-top:3px;min-height:24px}
+.hm .lab{font-size:10px;font-weight:700;margin:5px 0 2px;display:flex;justify-content:space-between}
+.hm .lab span{opacity:.55;font-weight:600}
+.strip{display:grid;grid-template-columns:repeat(31,1fr);gap:1px}
+.strip i{height:9px;border-radius:2px;background:#EBFADC}
+.strip i.d{background:#728C5A}.strip i.f{background:transparent;outline:1px dashed rgba(16,47,21,.12);outline-offset:-1px}
+.strip i.t{outline:1.5px solid #102F15;outline-offset:-1.5px}
+.wks{display:grid;grid-template-columns:repeat(31,1fr);gap:1px;margin-top:2px}
+.wks b{height:3px;border-radius:2px}
+.legend{display:flex;gap:10px;font-size:9.5px;opacity:.75;margin-top:8px;flex-wrap:wrap}
+.sw{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:-1px;margin-right:3px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .wd{text-align:center;font-size:9px;opacity:.55;font-weight:600}
+.cal .c{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.cal .c small{font-size:8.5px;font-weight:600;opacity:.85}
+.ws{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid #EBFADC;font-size:12px;font-weight:600}.ws:first-of-type{border-top:none}
+.ws .nm{width:118px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ws .pills{flex:1;display:flex;gap:3px}
+.ws .pill{flex:1;height:14px;border-radius:4px;background:#EBFADC;overflow:hidden;position:relative}
+.ws .pill b{position:absolute;left:0;top:0;bottom:0;background:#728C5A}
+.ws .pill.full b{background:#102F15}
+.ws .pc{width:34px;text-align:right;font-size:11px;font-weight:800}
+.list{margin:8px 12px 0;background:#fff;border-radius:16px;padding:6px 10px}
+.li{display:flex;justify-content:space-between;font-size:12px;font-weight:600;padding:6px 0;border-top:1px solid #EBFADC}.li:first-child{border-top:none}
+</style></head><body><div id="root"></div>
+<script>
+const W='#fff',F='#102F15';
+const calIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>`;
+const graphIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-6"/></svg>`;
+const statsIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V13M10 20V7M15 20v-9M20 20V4"/></svg>`;
+// ---- data: Oct 2026, today = 23, Oct 1 is Thursday, week Mon-Sun
+const TODAY=23, DAYS=31;
+const habits=[['Sleep from 12 to 8',7,.72],['Morning manifest',7,.9],['Workout',5,.62],['Reading for 30 mins',7,.55],['Talk to fam & friends',5,.75],['Healthy diet',7,.6],['Goal journaling',7,.4],['Vitamins',7,.95],['Pursue hobbies',1,.25]];
+let seed=7;const rnd=()=>((seed=(seed*9301+49297)%233280)/233280);
+const weekOf=d=>Math.floor((d+2)/7); // Oct1(Thu)->0, Oct5(Mon)->1
+const H=habits.map(([n,t,p])=>{const done=[];for(let d=1;d<=DAYS;d++)done[d]=d<=TODAY&&rnd()<p;return{n,t,done};});
+// hobbies: make it ~1 a week
+H[8].done=H[8].done.map(()=>false);[3,7,13,20].forEach(d=>H[8].done[d]=true);
+function pct(h,from=1,to=TODAY){
+  if(h.t===7){let c=0;for(let d=from;d<=to;d++)c+=h.done[d];return c/(to-from+1);}
+  const wk={};for(let d=from;d<=to;d++){const w=weekOf(d);wk[w]=wk[w]||{days:0,c:0};wk[w].days++;wk[w].c+=h.done[d];}
+  let got=0,need=0;Object.values(wk).forEach(w=>{const tg=Math.max(1,Math.round(h.t*w.days/7));need+=tg;got+=Math.min(w.c,tg);});return got/need;}
+const P=H.map(h=>pct(h));
+const overall=Math.round(P.reduce((a,b)=>a+b,0)/P.length*100);
+const short0=['Sleep 12–8','Manifest','Workout','Reading','Fam & friends','Healthy diet','Journaling','Vitamins','Hobbies'];
+const bestI=P.indexOf(Math.max(...P)), worstI=P.indexOf(Math.min(...P));
+let streakBest=0,streakI=0;H.forEach((h,i)=>{if(h.t!==7)return;let run=0;for(let d=1;d<=TODAY;d++){run=h.done[d]?run+1:0;if(run>streakBest){streakBest=run;streakI=i;}}});
+const ring=(p,label,size=78)=>{const r=size/2-7,c=2*Math.PI*r;return `<div class="ring"><svg width="${size}" height="${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#EBFADC" stroke-width="8"/><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${p>=.999?F:'#728C5A'}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${(c*p).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 ${size/2} ${size/2})"/><text x="50%" y="54%" text-anchor="middle" font-size="15" font-weight="800" fill="${F}">${Math.round(p*100)}%</text></svg><div class="nm">${label}</div></div>`};
+const dhead=`<div class="dhead"><span style="font-size:13px;font-weight:600">‹ Back</span><span class="t">‹ &nbsp;Habits · October&nbsp; ›</span><span style="width:38px"></span></div>`;
+const hero=`<div class="hero"><div class="n">${overall}%</div><div class="l"><b>of habit targets hit in October</b><br>▲ 6% vs September<br>best: ${short0[bestI]} · ${Math.round(P[bestI]*100)}%</div></div>`;
+// ---- habits tab with stats icon
+const habTab=`<div class="phone"><div style="background:#102F15"><div class="bar"><span class="arr">‹</span><span class="date">Fri, 23 Oct</span><span class="arr">›</span><div class="icons"><div class="ic">${calIcon(W)}</div><div class="ic">${graphIcon(W)}</div><div class="ic new">${statsIcon(F)}</div></div></div>
+ <div class="tabs"><span class="tab">Food</span><span class="tab on">Habits <span style="opacity:.6;font-size:11px">6/9</span></span></div></div>
+ <div class="callout">New: habit stats</div>
+ <div class="prog"><span>6 of 9 today</span><div class="pbar"><b style="width:66%"></b></div><span style="background:#102F15;color:#EAF1B1;padding:6px 11px;border-radius:999px;font-size:11px">✎ Edit</span></div>
+ <div class="sec">Daily</div>${['Sleep from 12 to 8|1','Morning manifest|1','Reading for 30 mins|0','Healthy diet|1','Goal journaling|0','Vitamins|1'].map(x=>{const[n,d]=x.split('|');return `<div class="hrow ${d==='1'?'done':''}"><span>${n}</span><span class="chk">${d==='1'?'✓':''}</span></div>`}).join('')}
+ <div class="sec">Weekly</div><div class="hrow done"><span>Workout</span><span style="margin-left:auto;font-size:11px;opacity:.8">3/5 this week</span><span class="chk" style="margin-left:0">✓</span></div></div>`;
+// ---- D1 rings
+const short=['Sleep 12–8','Manifest','Workout','Reading','Fam & friends','Healthy diet','Journaling','Vitamins','Hobbies'];
+const D1=`<div class="phone">${dhead}${hero}<div class="card"><div class="ctitle">Each habit this month</div><div class="rings">${H.map((h,i)=>ring(P[i],short[i]+`<br><span style="opacity:.55;font-size:9px">${h.t===7?'daily':h.t+'× a week'}</span>`)).join('')}</div></div>
+ <div class="list"><div class="li"><span>🔥 Longest streak</span><span>${short0[streakI]} · ${streakBest} days</span></div><div class="li"><span>Needs attention</span><span>${short0[worstI]} · ${Math.round(P[worstI]*100)}%</span></div></div></div>`;
+// ---- D2 heatmap grid
+const strip=h=>`<div class="strip">${Array.from({length:DAYS},(_,i)=>{const d=i+1;return `<i class="${d>TODAY?'f':h.done[d]?'d':''} ${d===TODAY?'t':''}"></i>`}).join('')}</div>`;
+const wkBar=h=>{if(h.t===7)return'';const met={};for(let d=1;d<=TODAY;d++){const w=weekOf(d);met[w]=(met[w]||0)+h.done[d];}
+  return `<div class="wks">${Array.from({length:DAYS},(_,i)=>{const d=i+1,w=weekOf(d);let days=0;for(let x=1;x<=DAYS;x++)if(weekOf(x)===w)days++;const tg=Math.max(1,Math.round(h.t*days/7));const ok=(met[w]||0)>=tg;return `<b style="background:${d>TODAY?'transparent':ok?F:'#EAF1B1'}"></b>`}).join('')}</div>`};
+const D2=`<div class="phone">${dhead}${hero}<div class="card hm" style="padding-top:8px"><div class="ctitle" style="display:flex;justify-content:space-between;margin-bottom:2px"><span>1 Oct</span><span>31 Oct</span></div>
+ ${H.map((h,i)=>`<div class="lab">${short[i]}<span>${Math.round(P[i]*100)}%</span></div>${strip(h)}${wkBar(h)}`).join('')}
+ <div class="legend"><span><span class="sw" style="background:#728C5A"></span>done</span><span><span class="sw" style="background:#EBFADC"></span>missed</span><span><span class="sw" style="background:${F};height:4px;vertical-align:2px"></span>weekly target met</span><span><span class="sw" style="background:#EAF1B1;height:4px;vertical-align:2px"></span>not met</span></div></div></div>`;
+// ---- D3 calendar heatmap
+const dayPct=d=>{let c=0;H.forEach(h=>{if(h.t===7)c+=h.done[d];});return c/7};// daily habits only
+const shade=p=>{const c=Math.round(p*7);return c>=6?['#102F15','#EAF1B1']:c>=4?['#728C5A','#fff']:c>=2?['#C7D9A6','#102F15']:['#fff','#102F15']};
+let perfect=0;const wdTot=[0,0,0,0,0,0,0],wdN=[0,0,0,0,0,0,0];for(let d=1;d<=TODAY;d++){const c=Math.round(dayPct(d)*7);if(c===7)perfect++;const wd=(d+2)%7;wdTot[wd]+=c;wdN[wd]++;}
+const wdNames=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];const bestWd=wdNames[wdTot.map((t,i)=>t/wdN[i]).reduce((bi,v,i,a)=>v>a[bi]?i:bi,0)];
+const D3=`<div class="phone">${dhead}${hero}<div class="card"><div class="ctitle">Daily habits done each day</div><div class="cal">${['M','T','W','T','F','S','S'].map(d=>`<div class="wd">${d}</div>`).join('')}
+ ${[null,null,null].concat(Array.from({length:DAYS},(_,i)=>i+1)).map(d=>{if(!d)return'<div></div>';if(d>TODAY)return `<div class="c" style="border:1px dashed rgba(16,47,21,.15);color:rgba(16,47,21,.35)">${d}</div>`;const p=dayPct(d),[bg,fg]=shade(p);return `<div class="c" style="background:${bg};color:${fg};${d===TODAY?'outline:2px solid #102F15;outline-offset:1px':''}">${d}<small>${Math.round(p*7)}/7</small></div>`}).join('')}</div>
+ <div class="legend" style="justify-content:center">0–1 <span class="sw" style="background:#fff;border:1px solid #ddd"></span>2–3 <span class="sw" style="background:#C7D9A6"></span>4–5 <span class="sw" style="background:#728C5A"></span>6–7 <span class="sw" style="background:${F}"></span></div></div>
+ <div class="list"><div class="li"><span>Perfect days (7/7)</span><span>${perfect}</span></div><div class="li"><span>Best weekday</span><span>${bestWd}</span></div></div></div>`;
+// ---- D4 radar
+function radar(){const S=300,cx=S/2,cy=S/2+2,R=82,n=H.length;const pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/n;return[cx+Math.cos(a)*R*v,cy+Math.sin(a)*R*v]};
+ let s=`<svg width="${S}" height="${S}" style="display:block;margin:0 auto">`;
+ [.25,.5,.75,1].forEach(v=>{s+=`<polygon points="${H.map((_,i)=>pt(i,v).join(',')).join(' ')}" fill="none" stroke="#DDE8C8" stroke-width="1"/>`});
+ H.forEach((_,i)=>{const[x,y]=pt(i,1);s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#DDE8C8"/>`});
+ const last=P.map(p=>Math.max(.15,Math.min(1,p-.12+((p*7)%0.2))));
+ s+=`<polygon points="${last.map((v,i)=>pt(i,v).join(',')).join(' ')}" fill="none" stroke="#728C5A" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+ s+=`<polygon points="${P.map((v,i)=>pt(i,v).join(',')).join(' ')}" fill="rgba(114,140,90,.28)" stroke="${F}" stroke-width="2" stroke-linejoin="round"/>`;
+ P.forEach((v,i)=>{const[x,y]=pt(i,v);s+=`<circle cx="${x}" cy="${y}" r="3.5" fill="${F}" stroke="#fff" stroke-width="1.5"/>`});
+ H.forEach((_,i)=>{const[x,y]=pt(i,1.2);const anchor=Math.abs(x-cx)<12?'middle':x<cx?'end':'start';s+=`<text x="${x}" y="${y+3}" font-size="9.5" font-weight="700" text-anchor="${anchor}" fill="${F}">${short[i]}</text><text x="${x}" y="${y+14}" font-size="9" text-anchor="${anchor}" fill="#728C5A">${Math.round(P[i]*100)}%</text>`});
+ return s+'</svg>';}
+const D4=`<div class="phone">${dhead}${hero}<div class="card" style="padding:6px 0 10px">${radar()}<div class="legend" style="justify-content:center"><span><span class="sw" style="background:rgba(114,140,90,.4);border:1.5px solid ${F}"></span>October</span><span><span class="sw" style="background:transparent;border:1.5px dashed #728C5A"></span>September</span></div></div></div>`;
+// ---- D5 week strips
+const weeks=[0,1,2,3,4];
+const wkPct=(h,w)=>{let days=0,c=0,el=0;for(let d=1;d<=DAYS;d++)if(weekOf(d)===w){days++;if(d<=TODAY){el++;c+=h.done[d];}}if(!el)return null;const tg=h.t===7?el:Math.max(1,Math.round(h.t*days/7));return Math.min(1,c/tg);};
+const D5=`<div class="phone">${dhead}${hero}<div class="card"><div class="ctitle" style="display:flex;gap:8px"><span style="width:118px">Habit</span><span style="flex:1;display:flex;justify-content:space-between"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span></span><span style="width:34px;text-align:right">Oct</span></div>
+ ${H.map((h,i)=>`<div class="ws"><span class="nm">${short[i]}</span><span class="pills">${weeks.map(w=>{const p=wkPct(h,w);return p===null?`<span class="pill" style="background:transparent;outline:1px dashed rgba(16,47,21,.15);outline-offset:-1px"></span>`:`<span class="pill ${p>=.999?'full':''}"><b style="width:${p*100}%"></b></span>`}).join('')}</span><span class="pc">${Math.round(P[i]*100)}%</span></div>`).join('')}
+ <div class="legend"><span><span class="sw" style="background:${F}"></span>week target met</span><span><span class="sw" style="background:#728C5A"></span>part of target</span><span>W1 = 1–4 Oct · W5 still to come</span></div></div></div>`;
+const sec=(t,s,cards)=>`<section><h1>${t}</h1><div class="sub">${s}</div><div class="grid">${cards.map(([h,p,ph])=>`<div class="opt"><h2>${h}</h2><p>${p}</p>${ph}</div>`).join('')}</div></section>`;
+document.getElementById('root').innerHTML=
+ sec('Habit dashboard: the new stats icon and the first two chart options','The habit dashboard opens from a third icon (a bar chart) at the top right. To make room, the date is shortened to “Fri, 23 Oct”. Every option starts with the same headline card: the month score and how it compares to last month.',
+  [['Habits tab with the stats icon','The pale-lime icon opens the habit dashboard. The ‹ › arrows at the top of the dashboard switch months.',habTab],
+   ['D1: Progress rings','One ring per habit in a 3×3 grid, filled to show how much of the target you hit. A ring turns dark once it reaches 100%. Your longest streak and weakest habit are listed below.',D1],
+   ['D2: Month grid','Each habit gets a strip of 31 days: filled = done, empty = missed, dashed = still to come. For weekly habits, a thin bar underneath shows each week where you hit the target.',D2]])+
+ sec('More chart options','The same October data in each, so you can compare them directly.',
+  [['D3: Calendar heatmap','Each day’s colour shows how many of your 7 daily habits you did, so good and bad days stand out. Weekly habits aren’t included, since they don’t belong to a single day.',D3],
+   ['D4: Radar (balance)','Each spoke is one habit, and the further out the point, the better. The solid shape is October and the dashed one is September, so you can see what improved. It looks great, but exact values are harder to read.',D4],
+   ['D5: Week strips','Each habit row shows weeks 1–5 as small bars, filled by how much of that week’s target you hit. Dark means you met it. This is the fairest view for weekly habits like Workout.',D5]]);
+</script></body></html>
