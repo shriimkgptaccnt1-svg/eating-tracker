@@ -1,0 +1,81 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Weight mockups</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:24px;width:1340px}
+section{margin-bottom:34px} section>h1{font-size:19px;margin-bottom:4px} section>.sub{font-size:13px;opacity:.75;margin-bottom:16px;max-width:900px}
+.grid{display:flex;gap:26px;align-items:flex-start}
+.opt{width:300px}.opt.wide{width:360px}.opt h2{font-size:15px;margin-bottom:4px}.opt p{font-size:12px;opacity:.75;margin-bottom:12px;min-height:48px}
+.phone{width:300px;height:620px;border-radius:34px;overflow:hidden;border:8px solid #111;display:flex;flex-direction:column;color:#1C1C1E;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.log{background:linear-gradient(180deg,#A9F1FF 0%,#C9D3FE 100%)}
+.bar{display:flex;align-items:center;gap:10px;padding:24px 16px 14px;background:#6F88FC;color:#fff}
+.date{font-weight:700;font-size:17px}.arr{font-size:22px;opacity:.75}.link{margin-left:auto;font-weight:600;font-size:13px}
+.cols{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.6px;text-transform:uppercase;padding:12px 16px 6px;opacity:.6}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:15px;border-top:1px solid rgba(0,0,0,.1)}
+.row .c{opacity:.55;font-size:13px}.row.ph{opacity:.4}
+.tick{position:absolute;right:18px;bottom:18px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700;background:#A163F7}
+.wbox{position:absolute;left:18px;bottom:18px;height:54px;min-width:104px;border-radius:16px;background:#FFFFF0;padding:7px 14px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 3px 10px rgba(60,60,140,.15)}
+.wbox .l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;opacity:.55}
+.wbox .v{font-size:18px;font-weight:700;color:#1E8E45}.wbox .v.empty{color:#6F88FC;font-size:15px}
+.dim{position:absolute;inset:0;background:rgba(20,20,50,.35)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#FFFFF0;border-radius:22px 22px 0 0;padding:16px 18px 18px}
+.grab{width:36px;height:4px;border-radius:2px;background:rgba(0,0,0,.18);margin:0 auto 12px}
+.big{font-size:44px;font-weight:800;color:#1E8E45;text-align:center}.big small{font-size:18px;font-weight:600;opacity:.6}
+.hint{text-align:center;font-size:11px;opacity:.55;margin:2px 0 12px}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.keys div{background:#fff;border-radius:10px;text-align:center;padding:9px 0;font-size:18px;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.btn{margin-top:10px;background:#A163F7;color:#fff;border-radius:14px;text-align:center;padding:12px;font-weight:700;font-size:15px}
+.step{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 4px}
+.step .pm{width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#6F88FC;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.cal{background:#FCF1F0}
+.mtab{display:flex;align-items:center;padding:22px 14px 12px;background:linear-gradient(90deg,#F3A8BB,#F8BF80);color:#5A1530}.mtab .t{flex:1;text-align:center;font-weight:700;font-size:16px}
+.calg{padding:6px 5px 8px;background:#FCF1F0}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.wd{text-align:center;font-size:9px;opacity:.6;padding:4px 0}
+.cell{height:62px;border-radius:6px;padding:3px;font-size:8px;line-height:10px;overflow:hidden;background:#fff;border:1px solid #F3A8BB}
+.cell.blank{background:transparent;border-color:transparent}.cell.today{background:#FBD9B4;border-color:#E08A3C}
+.top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px;white-space:nowrap;gap:2px}
+.top b{font-size:9px;opacity:.7}.top .w{font-size:8.5px;font-weight:800;color:#1E8E45;flex-shrink:0;letter-spacing:-.2px}
+.cell span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sum{flex:1;background:#ED4D8B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sum .bigt{font-size:20px;font-weight:700}
+.stats{display:flex;gap:8px;margin-top:10px}.stat{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 10px;text-align:center}
+.stat .n{font-size:16px;font-weight:700}.stat .l{font-size:10px;opacity:.85}
+.stat.g .n{color:#B8FFC9}
+</style></head><body>
+<div id="root"></div>
+<script>
+const head=`<div class="bar"><span class="arr">‹</span><span class="date">Fri, 23 Oct 2026</span><span class="arr">›</span><span class="link">Calendar</span></div><div class="cols"><span>What I ate</span><span>Cost</span></div>`;
+const rows=`<div class="row"><span>Chicken biryani</span><span class="c">320</span></div><div class="row"><span>Lassi</span><span class="c">optional</span></div><div class="row ph"><span>Add food…</span><span class="c">optional</span></div>`;
+const wbox=(v)=>`<div class="wbox"><div class="l">Weight</div>${v?`<div class="v">${v} <span style="font-size:12px;opacity:.6;color:#1C1C1E;font-weight:600">kg</span></div>`:`<div class="v empty">+ Add</div>`}</div>`;
+const log=(extra,w)=>`<div class="phone log">${head}${rows}${wbox(w)}<div class="tick">✓</div>${extra||''}</div>`;
+const keypad=`<div class="keys">${['1','2','3','4','5','6','7','8','9','.','0','⌫'].map(k=>`<div>${k}</div>`).join('')}</div>`;
+const optA=`<div class="phone log">${head}${rows}
+ <div class="wbox" style="min-width:150px;border:2px solid #6F88FC;bottom:218px"><div class="l">Weight</div><div class="v">72.<span style="border-right:2px solid #6F88FC">4</span> <span style="font-size:12px;opacity:.6;color:#1C1C1E;font-weight:600">kg</span></div></div>
+ <div class="tick" style="bottom:218px">✓</div>
+ <div style="position:absolute;left:0;right:0;bottom:0;height:200px;background:#D1D5DB;padding:8px">${keypad.replace(/background:#fff/g,'')}</div></div>`;
+const optB=log(`<div class="dim"></div><div class="sheet"><div class="grab"></div><div style="font-weight:700;font-size:15px;text-align:center">Today's weight</div>
+ <div class="big">72.4 <small>kg</small></div><div class="hint">Last: 72.9 kg on Wed</div>${keypad}<div class="btn">Save weight</div></div>`,'');
+const optC=log(`<div class="dim"></div><div class="sheet"><div class="grab"></div><div style="font-weight:700;font-size:15px;text-align:center">Today's weight</div>
+ <div class="hint" style="margin:4px 0 0">Starts at your last weight. Tap ± to adjust</div>
+ <div class="step"><div class="pm">−</div><div class="big" style="font-size:40px;white-space:nowrap">72.4<small> kg</small></div><div class="pm">+</div></div>
+ <div class="hint">± 0.1 kg per tap · hold to go faster · tap the number to type</div><div class="btn">Save weight</div></div>`,'');
+const W={1:'73.2',2:'73.0',5:'72.9',6:'73.1',9:'72.8',12:'72.9',14:'73.4',15:'73.1',19:'72.6',21:'72.9',23:'72.4'};
+const items={2:['Five Guys burger'],5:['Bubble tea','Momos'],11:['Masala dosa'],14:['Pizza','Garlic bread','Coke','+2 more'],19:['Ramen'],23:['Chicken biryani','Lassi']};
+let cells=[null,null,null];for(let d=1;d<=31;d++)cells.push(d);while(cells.length%7)cells.push(null);
+const cal=(sumHtml)=>`<div class="phone cal" style="width:360px"><div class="mtab"><span style="font-size:13px;font-weight:600">‹ Log</span><span class="t">‹ &nbsp;October 2026&nbsp; ›</span><span style="width:34px"></span></div>
+ <div class="calg"><div class="wk">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(w=>`<div class="wd">${w}</div>`).join('')}</div><div class="wk">${cells.map(d=>!d?`<div class="cell blank"></div>`:
+ `<div class="cell ${d===23?'today':''}"><div class="top"><b>${d}</b>${W[d]?`<span class="w">${W[d]}</span>`:''}</div>${(items[d]||[]).map((x,i)=>`<span style="${x.startsWith('+')?'opacity:.55':''}">${x}</span>`).join('')}</div>`).join('')}</div></div>
+ <div class="sum">${sumHtml}</div></div>`;
+const sum1=`<div class="bigt">6 days eating out</div><div class="stats"><div class="stat"><div class="n">13</div><div class="l">items</div></div><div class="stat"><div class="n">2220</div><div class="l">spent</div></div></div>`;
+const sum2=`<div class="bigt">6 days eating out</div><div class="stats"><div class="stat"><div class="n">13</div><div class="l">items</div></div><div class="stat"><div class="n">2220</div><div class="l">spent</div></div><div class="stat g"><div class="n">−0.8</div><div class="l">kg this month</div></div></div>`;
+const sec=(t,s,cards)=>`<section><h1>${t}</h1><div class="sub">${s}</div><div class="grid">${cards.map(([h,p,ph])=>`<div class="opt${ph.includes('phone cal')?' wide':''}"><h2>${h}</h2><p>${p}</p>${ph}</div>`).join('')}</div></section>`;
+document.getElementById('root').innerHTML=
+ sec('1 · Weight box on the log screen','A cream box in the bottom-left, across from the ✓. It shows today’s weight in green, or “+ Add” if you haven’t logged one yet.',
+  [['Not logged yet','The box invites you to tap it.',log('','')],['Logged','Shows today’s weight. Tap it to change.',log('','72.4')]])+
+ sec('2 · What happens when you tap the box (pick one)','All three are fast. They differ in how much screen they take up.',
+  [['A: Type in the box','The box grows and becomes the input, and the phone’s number keyboard opens. Tap the ✓ (or anywhere else) to save. It’s the quickest option.',optA],
+   ['B: Bottom sheet + keypad','A panel slides up with a big number, your last weight for reference, its own keypad, and a Save button.',optB],
+   ['C: Bottom sheet + ± stepper','It starts at your last weight, and you tap − / + to nudge it by 0.1 kg. Usually it’s just 1–3 taps and Save, with no typing.',optC]])+
+ sec('3 · Weight on the calendar','Weight appears in bold green at the top-right of each day you logged it. Days without a weight stay as they are.',
+  [['Weight on each day','The summary stays the same as now.',cal(sum1)],['+ monthly weight change','Optional: a third green box showing how much your weight changed this month.',cal(sum2)]]);
+</script></body></html>
