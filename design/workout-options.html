@@ -88,7 +88,7 @@ const stats=`<div class="hero"><div class="stat amber"><div class="n">13</div><d
 const C1=`<div class="phone">${chead}${stats}<div class="card"><div class="wdh" style="grid-template-columns:repeat(7,1fr)">${['M','T','W','T','F','S','S'].map(d=>`<span>${d}</span>`).join('')}</div>
  <div class="cg" style="grid-template-columns:repeat(7,1fr)">${cells.map(d=>!d?'<span></span>':`<span class="d ${WORK.includes(d)?'w':''} ${d===TODAY?'t':''} ${d>TODAY?'f':''}">${d}</span>`).join('')}</div>
  <div class="legend"><span><span class="sw" style="background:#FFB703"></span>worked out</span><span><span class="sw" style="background:#fff;outline:2px solid #0A6CF2;outline-offset:-2px"></span>today</span></div></div>
- <div class="list"><div class="li"><span>This week</span><span>3 workouts so far</span></div><div class="li"><span>Tap a day</span><span>opens that day’s workout</span></div></div></div>`;
+ <div class="list"><div class="li"><span>This week</span><span>3 workouts so far</span></div></div></div>`;
 const C2=`<div class="phone">${chead}${stats}<div class="card"><div class="wdh" style="grid-template-columns:repeat(7,1fr) 38px">${['M','T','W','T','F','S','S','Wk'].map(d=>`<span>${d}</span>`).join('')}</div>
  <div class="cg" style="grid-template-columns:repeat(7,1fr) 38px">${weeks.map((w,wi)=>{const days=w.filter(Boolean);const done=days.filter(d=>WORK.includes(d)&&d<=TODAY).length;const future=days.every(d=>d>TODAY);
   const tgt=Math.max(1,Math.round(5*days.length/7));

@@ -76,9 +76,10 @@ section{margin-bottom:30px} section>h1{font-size:19px;margin-bottom:4px} section
 <script>
 const calIcon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>`;
 const graphIcon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-6"/></svg>`;
-const bar=(bg,active)=>`<div style="background:${bg}"><div class="bar"><span class="arr">‹</span><span class="date">Fri, 23 Oct 2026</span><span class="arr">›</span><div class="icons"><div class="ic">${calIcon}</div><div class="ic">${graphIcon}</div></div></div>
- <div class="tabs"><span class="tab ${active==='food'?'on':''}" style="${active==='food'?'color:#6F88FC':''}">Food</span><span class="tab ${active==='hab'?'on':''}" style="${active==='hab'?'color:#102F15':''}">Habits<span class="cnt">6/9</span></span></div></div>`;
-const dots=(i)=>`<div class="dots"><i class="${i===0?'on':''}"></i><i class="${i===1?'on':''}"></i></div>`;
+const statsIcon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V13M10 20V7M15 20v-9M20 20V4"/></svg>`;
+const bar=(bg,active)=>`<div style="background:${bg}"><div class="bar"><span class="arr">‹</span><span class="date">Fri, 23 Oct</span><span class="arr">›</span><div class="icons">${active==='hab'?`<div class="ic">${statsIcon}</div>`:`<div class="ic">${calIcon}</div><div class="ic">${graphIcon}</div>`}</div></div>
+ <div class="tabs"><span class="tab ${active==='food'?'on':''}" style="${active==='food'?'color:#6F88FC':''}">Food</span><span class="tab ${active==='hab'?'on':''}" style="${active==='hab'?'color:#102F15':''}">Habits<span class="cnt">6/9</span></span><span class="tab">Workout</span></div></div>`;
+const dots=(i)=>`<div class="dots"><i class="${i===0?'on':''}"></i><i class="${i===1?'on':''}"></i><i></i></div>`;
 // Fri 23 Oct, week Mon 19 - Sun 25
 const H=[
  {n:'Sleep from 12 to 8',t:7,done:true,wk:[1,1,0,1,1]},
