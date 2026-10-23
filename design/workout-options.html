@@ -1,0 +1,107 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Workout mockups</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:24px;width:1160px}
+section{margin-bottom:30px} section>h1{font-size:19px;margin-bottom:4px} section>.sub{font-size:13px;opacity:.75;margin-bottom:16px;max-width:1040px}
+.grid{display:flex;gap:26px;align-items:flex-start}
+.opt{width:340px}.opt h2{font-size:15px;margin-bottom:4px}.opt p{font-size:12px;opacity:.75;margin-bottom:12px;min-height:64px}
+.phone{width:340px;height:690px;border-radius:34px;overflow:hidden;border:8px solid #111;display:flex;flex-direction:column;position:relative;background:#DDF5FF;color:#001D4F;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.bar{display:flex;align-items:center;gap:8px;padding:26px 14px 12px;color:#fff}
+.date{font-weight:700;font-size:16px}.arr{font-size:20px;opacity:.8}
+.icons{margin-left:auto;display:flex;gap:7px}
+.ic{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18)}
+.tabs{display:flex;gap:3px;margin:0 14px 12px;border-radius:12px;padding:3px;background:rgba(255,255,255,.16)}
+.tab{flex:1;text-align:center;font-size:12.5px;font-weight:700;padding:7px 0;border-radius:9px;color:rgba(255,255,255,.85)}
+.tab.on{background:#fff;color:#0A6CF2}
+.cols{display:grid;grid-template-columns:1fr 46px 58px 46px;gap:6px;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:14px 16px 6px;font-weight:700;color:rgba(0,29,79,.55)}
+.cols span:not(:first-child){text-align:center}
+.trow{display:grid;grid-template-columns:1fr 46px 58px 46px;gap:6px;align-items:center;padding:11px 16px;font-size:14.5px;border-top:1px solid rgba(0,29,79,.1)}
+.trow span:not(:first-child){text-align:center;font-weight:600}
+.trow.ph{color:rgba(0,29,79,.35)}
+.trow.active{background:#fff;margin:3px 8px;padding:11px 8px;border-radius:12px;border:1.5px solid #17C2FF;box-shadow:0 2px 8px rgba(10,108,242,.15)}
+.cur{display:inline-block;width:2px;height:16px;margin-left:1px;vertical-align:-3px;background:#0A6CF2}
+.crow{display:grid;grid-template-columns:1fr 46px 58px 46px;gap:6px;align-items:center;margin:5px 10px;padding:9px 10px;border-radius:14px;background:#fff;font-size:14px;font-weight:600}
+.crow .n{background:#DDF5FF;border-radius:8px;text-align:center;padding:6px 0;font-size:13.5px;font-weight:700;color:#0A6CF2}
+.crow.active{outline:2px solid #17C2FF}
+.crow.ph{background:transparent;border:1.5px dashed rgba(10,108,242,.35);color:rgba(0,29,79,.4)}
+.crow.ph .n{background:transparent;color:rgba(0,29,79,.3)}
+.tick{position:absolute;right:18px;bottom:22px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#001D4F;font-size:24px;font-weight:800;background:#FFB703;box-shadow:0 4px 12px rgba(255,183,3,.4)}
+.chipbtn{position:absolute;left:18px;bottom:30px;background:#fff;color:#0A6CF2;font-weight:700;font-size:12.5px;padding:10px 14px;border-radius:999px;border:1.5px solid #17C2FF}
+.saved{position:absolute;right:84px;bottom:40px;font-size:13px;opacity:.6}
+.dots{display:flex;gap:5px;justify-content:center;position:absolute;bottom:8px;left:0;right:0}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.18)}.dots i.on{background:rgba(0,0,0,.5)}
+.sumline{margin:10px 16px 0;font-size:12px;font-weight:600;color:rgba(0,29,79,.6)}
+/* calendar */
+.chead{display:flex;align-items:center;padding:26px 14px 14px;background:#001D4F;color:#fff}.chead .t{flex:1;text-align:center;font-weight:700;font-size:16px}
+.hero{display:flex;gap:8px;margin:12px 12px 0}
+.stat{flex:1;background:#fff;border-radius:14px;padding:10px;text-align:center}
+.stat .n{font-size:22px;font-weight:800;color:#0A6CF2}.stat .l{font-size:10.5px;font-weight:600;opacity:.6}
+.stat.amber{background:#001D4F;color:#fff}.stat.amber .n{color:#FFB703}.stat.amber .l{opacity:.8}
+.card{margin:10px 12px 0;background:#fff;border-radius:16px;padding:12px 10px}
+.wdh{display:grid;gap:4px;font-size:10px;font-weight:700;opacity:.5;text-align:center;margin-bottom:6px}
+.cg{display:grid;gap:4px}
+.d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;border-radius:50%;color:rgba(0,29,79,.7)}
+.d.w{background:#FFB703;color:#001D4F}
+.d.t{outline:2px solid #0A6CF2;outline-offset:1px}
+.d.f{color:rgba(0,29,79,.25)}
+.sq{aspect-ratio:1;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;background:#F2FAFF;color:rgba(0,29,79,.6);line-height:1.05}
+.sq.w{background:#0A6CF2;color:#fff}.sq.w i{font-style:normal;font-size:11px;color:#FFB703}
+.sq.t{outline:2px solid #001D4F;outline-offset:1px}
+.sq.f{background:transparent;border:1px dashed rgba(0,29,79,.15);color:rgba(0,29,79,.25)}
+.wk{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;border-radius:9px}
+.wk.ok{background:#FFB703;color:#001D4F}.wk.no{background:#DDF5FF;color:#0A6CF2}.wk.f{color:rgba(0,29,79,.25)}
+.legend{display:flex;gap:12px;justify-content:center;font-size:10px;opacity:.7;margin-top:10px;flex-wrap:wrap}
+.sw{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:3px}
+.list{margin:10px 12px 0;background:#fff;border-radius:16px;padding:4px 12px}
+.li{display:flex;justify-content:space-between;font-size:12px;font-weight:600;padding:8px 0;border-top:1px solid #EAF6FF}.li:first-child{border-top:none}
+.li span:last-child{color:#0A6CF2;font-weight:700}
+</style></head><body><div id="root"></div>
+<script>
+const calIcon=c=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M9 14.5l2 2 4-4"/></svg>`;
+const head=`<div style="background:#001D4F"><div class="bar"><span class="arr">‹</span><span class="date">Fri, 23 Oct</span><span class="arr">›</span><div class="icons"><div class="ic">${calIcon('#fff')}</div></div></div>
+ <div class="tabs"><span class="tab">Food</span><span class="tab">Habits</span><span class="tab on">Workout</span></div></div>`;
+const dots=`<div class="dots"><i></i><i></i><i class="on"></i></div>`;
+const ex=[['Bench press','4','60','8'],['Incline DB press','3','22.5','10'],['Cable fly','3','15','12'],['Tricep pushdown','3','25','12']];
+// W1 table lines
+const W1=`<div class="phone">${head}<div class="cols"><span>Exercise</span><span>Sets</span><span>kg</span><span>Reps</span></div>
+ ${ex.map(r=>`<div class="trow">${r.map(c=>`<span>${c}</span>`).join('')}</div>`).join('')}
+ <div class="trow active"><span>Dips<span class="cur"></span></span><span style="color:rgba(0,29,79,.3)">–</span><span style="color:rgba(0,29,79,.3)">–</span><span style="color:rgba(0,29,79,.3)">–</span></div>
+ <div class="trow ph"><span>Add exercise…</span><span>–</span><span>–</span><span>–</span></div>
+ <div class="tick">✓</div>${dots}</div>`;
+// W2 card rows + repeat-last
+const W2=`<div class="phone">${head}<div class="cols" style="padding-left:20px;padding-right:20px"><span>Exercise</span><span>Sets</span><span>kg</span><span>Reps</span></div>
+ ${ex.map(r=>`<div class="crow"><span>${r[0]}</span>${r.slice(1).map(c=>`<span class="n">${c}</span>`).join('')}</div>`).join('')}
+ <div class="crow active"><span>Dips<span class="cur"></span></span><span class="n" style="color:rgba(0,29,79,.3)">–</span><span class="n" style="color:rgba(0,29,79,.3)">–</span><span class="n" style="color:rgba(0,29,79,.3)">–</span></div>
+ <div class="crow ph"><span>Add exercise…</span><span class="n">–</span><span class="n">–</span><span class="n">–</span></div>
+ <div class="chipbtn">↺ Repeat last chest day</div><div class="tick">✓</div>${dots}</div>`;
+// W3 empty day state
+const W3=`<div class="phone">${head.replace('Fri, 23 Oct','Sat, 24 Oct')}<div class="cols"><span>Exercise</span><span>Sets</span><span>kg</span><span>Reps</span></div>
+ <div class="trow active"><span><span class="cur" style="margin-left:0"></span><span style="color:rgba(0,29,79,.35)">Add exercise…</span></span><span style="color:rgba(0,29,79,.3)">–</span><span style="color:rgba(0,29,79,.3)">–</span><span style="color:rgba(0,29,79,.3)">–</span></div>
+ <div style="margin:40px 30px 0;text-align:center;color:rgba(0,29,79,.45);font-size:13px;line-height:1.5">Nothing logged yet.<br>Leave it empty for a rest day.</div>
+ <div class="tick">✓</div>${dots}</div>`;
+// calendar data
+const WORK=[1,2,5,6,7,9,12,13,14,16,19,21,23], TODAY=23;
+const cells=[null,null,null].concat(Array.from({length:31},(_,i)=>i+1));while(cells.length%7)cells.push(null);
+const weeks=[];for(let i=0;i<cells.length;i+=7)weeks.push(cells.slice(i,i+7));
+const chead=`<div class="chead"><span style="font-size:13px;font-weight:600">‹ Back</span><span class="t">‹ &nbsp;October 2026&nbsp; ›</span><span style="width:38px"></span></div>`;
+const stats=`<div class="hero"><div class="stat amber"><div class="n">13</div><div class="l">workouts this month</div></div><div class="stat"><div class="n">3</div><div class="l">days in a row (best)</div></div><div class="stat"><div class="n">2</div><div class="l">rest days in a row (max)</div></div></div>`;
+const C1=`<div class="phone">${chead}${stats}<div class="card"><div class="wdh" style="grid-template-columns:repeat(7,1fr)">${['M','T','W','T','F','S','S'].map(d=>`<span>${d}</span>`).join('')}</div>
+ <div class="cg" style="grid-template-columns:repeat(7,1fr)">${cells.map(d=>!d?'<span></span>':`<span class="d ${WORK.includes(d)?'w':''} ${d===TODAY?'t':''} ${d>TODAY?'f':''}">${d}</span>`).join('')}</div>
+ <div class="legend"><span><span class="sw" style="background:#FFB703"></span>worked out</span><span><span class="sw" style="background:#fff;outline:2px solid #0A6CF2;outline-offset:-2px"></span>today</span></div></div>
+ <div class="list"><div class="li"><span>This week</span><span>3 workouts so far</span></div><div class="li"><span>Tap a day</span><span>opens that day’s workout</span></div></div></div>`;
+const C2=`<div class="phone">${chead}${stats}<div class="card"><div class="wdh" style="grid-template-columns:repeat(7,1fr) 38px">${['M','T','W','T','F','S','S','Wk'].map(d=>`<span>${d}</span>`).join('')}</div>
+ <div class="cg" style="grid-template-columns:repeat(7,1fr) 38px">${weeks.map((w,wi)=>{const days=w.filter(Boolean);const done=days.filter(d=>WORK.includes(d)&&d<=TODAY).length;const future=days.every(d=>d>TODAY);
+  const tgt=Math.max(1,Math.round(5*days.length/7));
+  return w.map(d=>!d?'<span></span>':`<span class="sq ${WORK.includes(d)?'w':''} ${d===TODAY?'t':''} ${d>TODAY?'f':''}">${d}${WORK.includes(d)?'<i>✓</i>':''}</span>`).join('')+`<span class="wk ${future?'f':done>=tgt?'ok':'no'}">${future?'–':done+'/'+tgt}</span>`}).join('')}</div>
+ <div class="legend"><span><span class="sw" style="background:#0A6CF2;border-radius:3px"></span>worked out</span><span><span class="sw" style="background:#FFB703;border-radius:3px"></span>week target (5×) hit</span><span>Wk = workouts that week</span></div></div>
+ <div class="list"><div class="li"><span>Weekly target</span><span>5 days (from your habit)</span></div></div></div>`;
+const sec=(t,s,cards)=>`<section><h1>${t}</h1><div class="sub">${s}</div><div class="grid">${cards.map(([h,p,ph])=>`<div class="opt"><h2>${h}</h2><p>${p}</p>${ph}</div>`).join('')}</div></section>`;
+document.getElementById('root').innerHTML=
+ sec('1 · Workout tab (the third tab: Food → Habits → Workout)','Swipe left from Habits. It uses the navy bar from your blue palette, the date is filled in and shared with the other tabs, and ‹ › change the day. The table works like Food: type an exercise and press Enter to jump to Sets, then kg, then Reps, then the next row. Tap the amber ✓ to save.',
+  [['W1: Simple table','Matches the food list: plain rows with lines between them, and the row you’re typing in becomes a white card with a cyan outline.',W1],
+   ['W2: Card rows + repeat','Each exercise is a white card, and the numbers sit in light-blue boxes that are easy to tap. Optional extra: a “Repeat last…” button that copies your last session, so you only change the numbers.',W2],
+   ['Empty day / rest day','What a new day looks like: the cursor waits in the first row. If you log nothing, that day counts as a rest day.',W3]])+
+ sec('2 · Workout calendar (calendar icon on the Workout tab), pick one','It only shows whether you worked out. ‹ › switch months, and tapping a day opens that day’s workout.',
+  [['C1: Amber dots','Days you worked out are filled amber circles, and today has a blue ring. It’s the simplest and calmest option, with three quick stats on top.',C1],
+   ['C2: Ticks + weekly count','Days you worked out are blue squares with an amber ✓. A “Wk” column shows workouts per week against your 5-day target, and turns amber when you hit it.',C2]]);
+</script></body></html>
