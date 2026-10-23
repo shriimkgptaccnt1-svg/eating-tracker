@@ -1,0 +1,44 @@
+# Builds a standalone Android APK on every push to main (or on demand from the Actions tab)
+# and attaches it to a GitHub Release called "latest" so it can be downloaded straight to a phone.
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - run: npm ci
+
+      # Generates the android/ project from app.json (it is not checked in).
+      - run: npx expo prebuild --platform android --no-install
+
+      - name: Build release APK
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Publish to the "latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk eat-out.apk
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest eat-out.apk --title "Eat Out (latest build)" --notes "Built from ${GITHUB_SHA::7}"

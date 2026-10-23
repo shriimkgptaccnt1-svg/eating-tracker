@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Eat Out UI options</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:28px}
+h1{font-size:22px;margin-bottom:4px} .sub{opacity:.7;font-size:13px;margin-bottom:26px}
+.opt{margin-bottom:40px} .opt h2{font-size:18px;margin-bottom:4px} .opt p{font-size:13px;opacity:.75;margin-bottom:14px;max-width:640px}
+.pair{display:flex;gap:24px;flex-wrap:wrap}
+.phone{width:300px;height:620px;border-radius:34px;overflow:hidden;border:8px solid #111;display:flex;flex-direction:column;color:#1C1C1E;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.hdr{display:flex;align-items:center;gap:10px;padding:22px 16px 12px}
+.date{font-weight:700;font-size:17px}.arr{font-size:22px;opacity:.55}.link{margin-left:auto;font-weight:600;font-size:13px}
+.cols{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.6px;text-transform:uppercase;padding:0 16px 6px;opacity:.6}
+.row{display:flex;justify-content:space-between;padding:12px 16px;font-size:15px;border-top:1px solid rgba(0,0,0,.1)}
+.row .c{opacity:.55;font-size:13px}.row.ph{opacity:.4}
+.tick{position:absolute;right:18px;bottom:18px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}
+.saved{position:absolute;right:84px;bottom:34px;font-size:13px;opacity:.6}
+.mtab{display:flex;align-items:center;padding:22px 14px 12px}.mtab .t{flex:1;text-align:center;font-weight:700;font-size:16px}
+.cal{flex:none;padding:6px 5px 8px}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.wd{text-align:center;font-size:9px;opacity:.6;padding:4px 0}
+.cell{height:62px;border-radius:6px;padding:3px;font-size:8px;line-height:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cell b{display:block;font-size:9px;opacity:.7;margin-bottom:1px}
+.cell span{display:block;overflow:hidden;text-overflow:ellipsis}
+.sum{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.sum .big{font-size:20px;font-weight:700}.sum .sm{font-size:12px;opacity:.85}
+.stats{display:flex;gap:10px;margin-top:10px}.stat{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 12px;text-align:center}
+.stat .n{font-size:18px;font-weight:700}.stat .l{font-size:10px;opacity:.85}
+</style></head><body>
+<h1>Eat Out: UI options</h1>
+<div class="sub">The log screen uses lighter shades from the Fairy palette, and the calendar uses the pink palette. The layout is the same as the current app; only the colours change.</div>
+<div id="root"></div>
+<script>
+const items={2:['Five Guys burger'],5:['Bubble tea','Momos'],11:['Masala dosa'],14:['Pizza','Garlic bread','Coke','Brownie','Ice cream'],19:['Ramen'],23:['Chicken biryani','Lassi','Gulab jamun']};
+const options=[
+ {name:'A: Soft cyan + blush',desc:'The log screen is a pale cyan with a purple ✓. On the calendar, the month bar is mid pink, the grid is near-white blush, and the summary block underneath is dark pink. Today is highlighted in peach.',
+  log:{bg:'#9DEEFF',ink:'#1C1C1E',link:'#7B4FE0',tick:'#A163F7'},
+  cal:{tab:'#F3A8BB',tabInk:'#5A1530',grid:'#FCF1F0',cell:'#FFFFFF',cellLine:'#F6D3DC',today:'#F8BF80',sum:'#ED4D8B'}},
+ {name:'B: Periwinkle + bold pink header',desc:'The log screen is a light periwinkle (a lighter 6F88FC) with a cyan ✓. On the calendar, the month bar is the dark pink with white text, the grid is light pink, and the summary is a deeper pink with stat chips.',
+  log:{bg:'#C3CEFE',ink:'#1C1C1E',link:'#3E52C9',tick:'#2BB8D6'},
+  cal:{tab:'#ED4D8B',tabInk:'#FFFFFF',grid:'#FBE0E6',cell:'#FFF5F7',cellLine:'#F3A8BB',today:'#F8BF80',sum:'#D63B78',chips:true}},
+ {name:'C: Cyan gradient + peach accent',desc:'The log screen fades from light cyan to periwinkle with a purple ✓. On the calendar, the month bar is a pink-to-peach gradient, the grid is blush, and the summary is dark pink with stat chips.',
+  log:{bg:'linear-gradient(180deg,#A9F1FF 0%,#C9D3FE 100%)',ink:'#1C1C1E',link:'#7B4FE0',tick:'#A163F7'},
+  cal:{tab:'linear-gradient(90deg,#F3A8BB,#F8BF80)',tabInk:'#5A1530',grid:'#FCF1F0',cell:'#FFFFFF',cellLine:'#F3A8BB',today:'#FBD9B4',sum:'#ED4D8B',chips:true}},
+];
+function logPhone(o){return `<div class="phone" style="background:${o.bg};color:${o.ink}">
+ <div class="hdr"><span class="arr">‹</span><span class="date">Fri, 23 Oct 2026</span><span class="arr">›</span><span class="link" style="color:${o.link}">Calendar</span></div>
+ <div class="cols"><span>What I ate</span><span>Cost</span></div>
+ ${[['Chicken biryani','320'],['Lassi','optional'],['Gulab jamun','optional']].map(([f,c])=>`<div class="row"><span>${f}</span><span class="c">${c}</span></div>`).join('')}
+ <div class="row ph"><span>Add food…</span><span class="c">optional</span></div>
+ <div class="saved">Saved</div><div class="tick" style="background:${o.tick}">✓</div></div>`}
+function calPhone(o){let cells=[];for(let i=0;i<3;i++)cells.push(null);for(let d=1;d<=31;d++)cells.push(d);while(cells.length%7)cells.push(null);
+ const grid=cells.map(d=>{if(!d)return `<div class="cell"></div>`;const it=items[d]||[];const t=d===23;
+  return `<div class="cell" style="background:${t?o.today:o.cell};border:1px solid ${t?'#E08A3C':o.cellLine}"><b>${d}</b>${it.slice(0,3).map(x=>`<span>${x}</span>`).join('')}${it.length>3?`<span style="opacity:.55">+${it.length-3} more</span>`:''}</div>`}).join('');
+ return `<div class="phone" style="background:${o.grid}">
+ <div class="mtab" style="background:${o.tab};color:${o.tabInk}"><span style="font-size:13px;font-weight:600">‹ Log</span><span class="t">‹ &nbsp;October 2026&nbsp; ›</span><span style="width:34px"></span></div>
+ <div class="cal"><div class="wk">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(w=>`<div class="wd">${w}</div>`).join('')}</div><div class="wk">${grid}</div></div>
+ <div class="sum" style="background:${o.sum}">${o.chips?`<div class="big">6 days eating out</div><div class="stats"><div class="stat"><div class="n">13</div><div class="l">items</div></div><div class="stat"><div class="n">2220</div><div class="l">spent</div></div></div>`:`<div class="big">6 days eating out</div><div class="sm">13 items · 2220 spent</div>`}</div></div>`}
+document.getElementById('root').innerHTML=options.map(o=>`<div class="opt"><h2>${o.name}</h2><p>${o.desc}</p><div class="pair">${logPhone(o.log)}${calPhone(o.cal)}</div></div>`).join('');
+</script></body></html>
