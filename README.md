@@ -15,15 +15,15 @@ npm install
 npx expo start        # scan the QR code with Expo Go
 ```
 
-## Build an APK (install directly on Android)
+## Get the APK (no Expo Go, no Expo account)
 
-Builds run in Expo's cloud, which is free with an Expo account. No Android Studio is needed.
+GitHub builds the APK automatically (`.github/workflows/build-apk.yml`):
 
-```bash
-npm install
-npx eas-cli@latest login
-npx eas-cli@latest build -p android --profile apk
-```
+1. Push this project to a GitHub repo on the `main` branch.
+2. Wait about 10–15 minutes for the **Build APK** job in the repo's **Actions** tab to finish.
+3. On your phone, open the repo's **Releases** page, then **latest**, then `eat-out.apk`.
+4. Tap the downloaded file, then allow "Install unknown apps" for your browser when Android asks.
 
-When the build finishes (about 10–15 minutes), it prints a download link and a QR code for the `.apk`.
-Open the link on your phone, download the file, and allow "Install unknown apps" for your browser when Android asks.
+Every push to `main` rebuilds it. To update the app on your phone, install the new APK over the old one. Your saved entries are kept.
+
+Another way to get it is through Expo's cloud build service, which needs a free Expo account: `npx eas-cli@latest build -p android --profile apk`.
