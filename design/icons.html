@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Icon options</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:28px;width:1180px}
+h1{font-size:20px;margin-bottom:4px}.sub{font-size:13px;opacity:.75;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:rgba(255,255,255,.06);border-radius:18px;padding:18px;display:flex;gap:18px;align-items:center}
+.card svg.big{width:150px;height:150px;flex-shrink:0;border-radius:34px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.card h2{font-size:15px;margin-bottom:6px}.card p{font-size:12px;opacity:.75;line-height:1.45}
+.small{display:flex;gap:10px;margin-top:10px;align-items:center}
+.small svg{width:46px;height:46px}
+.small .circ{border-radius:50%}.small .sq{border-radius:12px}
+.small span{font-size:10px;opacity:.6}
+.home{margin-top:30px;background:linear-gradient(160deg,#3b4f7a,#1d2840);border-radius:24px;padding:26px 30px}
+.home h1{margin-bottom:16px}
+.row{display:flex;gap:34px;flex-wrap:wrap}
+.app{display:flex;flex-direction:column;align-items:center;gap:7px;width:84px}
+.app svg{width:60px;height:60px;border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.app span{font-size:12px;text-align:center}
+</style></head><body>
+<h1>App icon options</h1><div class="sub">Each one uses your three section colours: pink (food), green (habits), blue (workout). Android crops icons to a circle or rounded square depending on the phone, so both shapes are shown small.</div>
+<div class="grid" id="grid"></div>
+<div class="home"><h1>On a home screen</h1><div class="row" id="home"></div></div>
+<script>
+const P='#ED4D8B',PL='#F3A8BB',PE='#F8BF80',G='#728C5A',GD='#102F15',GL='#EAF1B1',B='#0A6CF2',C='#17C2FF',N='#001D4F',A='#FFB703';
+const defs=`<defs>
+ <linearGradient id="pk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${PL}"/><stop offset="1" stop-color="${PE}"/></linearGradient>
+ <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${GL}"/><stop offset=".55" stop-color="${G}"/><stop offset="1" stop-color="${GD}"/></linearGradient>
+ <linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DDF5FF"/><stop offset="1" stop-color="${C}"/></linearGradient>
+ <linearGradient id="tri" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P}"/><stop offset=".5" stop-color="${G}"/><stop offset="1" stop-color="${B}"/></linearGradient>
+ <linearGradient id="soft" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${PL}"/><stop offset=".5" stop-color="${GL}"/><stop offset="1" stop-color="#9FE3FF"/></linearGradient>
+</defs>`;
+const arc=(r,start,end,col,w)=>{const a0=(start-90)*Math.PI/180,a1=(end-90)*Math.PI/180;const x0=256+r*Math.cos(a0),y0=256+r*Math.sin(a0),x1=256+r*Math.cos(a1),y1=256+r*Math.sin(a1);return `<path d="M${x0} ${y0} A${r} ${r} 0 ${end-start>180?1:0} 1 ${x1} ${y1}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`};
+const icons=[
+ ['1 · Three rings','Three nested progress rings, one per section, like activity rings. They read as "daily progress" even at a tiny size.',
+  `<rect width="512" height="512" fill="#FFFDF8"/>`+
+  `<circle cx="256" cy="256" r="170" fill="none" stroke="${P}" stroke-opacity=".15" stroke-width="52"/>${arc(170,0,290,P,52)}`+
+  `<circle cx="256" cy="256" r="108" fill="none" stroke="${G}" stroke-opacity=".15" stroke-width="52"/>${arc(108,0,250,G,52)}`+
+  `<circle cx="256" cy="256" r="46" fill="none" stroke="${B}" stroke-opacity=".15" stroke-width="52"/>${arc(46,0,320,B,52)}`],
+ ['2 · Three tabs','Three stacked rounded bars, one per tab, in the same gradients as the app’s top bars. It shows directly how the app is laid out.',
+  `<rect width="512" height="512" fill="#FFFDF8"/><rect x="96" y="104" width="320" height="76" rx="38" fill="url(#pk)"/><rect x="96" y="218" width="320" height="76" rx="38" fill="url(#gr)"/><rect x="96" y="332" width="320" height="76" rx="38" fill="url(#bl)"/>`+
+  `<circle cx="374" cy="142" r="20" fill="#fff"/><circle cx="374" cy="256" r="20" fill="#fff"/><circle cx="374" cy="370" r="20" fill="#fff"/>`],
+ ['3 · Tick on a gradient','One bold white tick on a pink → green → blue gradient. It’s simple and confident, and works well at any size.',
+  `<rect width="512" height="512" fill="url(#tri)"/><path d="M146 268 L224 344 L370 182" fill="none" stroke="#fff" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/>`],
+ ['4 · Calendar day','A calendar page whose header has the three colours, with a dot each for food, habits and workout. It’s a "log your day" journal feel.',
+  `<rect width="512" height="512" fill="#FFFDF8"/><rect x="96" y="112" width="320" height="300" rx="44" fill="#fff" stroke="${N}" stroke-opacity=".12" stroke-width="6"/>`+
+  `<path d="M96 156 a44 44 0 0 1 44 -44 h232 a44 44 0 0 1 44 44 v34 h-320z" fill="url(#tri)"/><rect x="176" y="82" width="22" height="64" rx="11" fill="${N}"/><rect x="314" y="82" width="22" height="64" rx="11" fill="${N}"/>`+
+  `<circle cx="178" cy="300" r="30" fill="${P}"/><circle cx="256" cy="300" r="30" fill="${G}"/><circle cx="334" cy="300" r="30" fill="${B}"/>`],
+ ['5 · Three circles','Three overlapping translucent circles (food, habits, workout), where the middle is "you". It’s soft, modern and abstract.',
+  `<rect width="512" height="512" fill="#FFFDF8"/><g style="mix-blend-mode:multiply"><circle cx="256" cy="196" r="108" fill="${P}" fill-opacity=".8"/><circle cx="196" cy="300" r="108" fill="${G}" fill-opacity=".8"/><circle cx="316" cy="300" r="108" fill="${C}" fill-opacity=".85"/></g>`],
+ ['6 · Pastel streak','Three rising bars like a growing streak, on a soft pastel gradient that matches the app’s top bars. It suggests progress.',
+  `<rect width="512" height="512" fill="url(#soft)"/><rect x="120" y="270" width="72" height="130" rx="22" fill="${P}"/><rect x="220" y="196" width="72" height="204" rx="22" fill="${GD}"/><rect x="320" y="118" width="72" height="282" rx="22" fill="${B}"/><circle cx="356" cy="88" r="16" fill="${A}"/>`],
+];
+const svg=(body,cls='')=>`<svg class="${cls}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${defs}${body}</svg>`;
+document.getElementById('grid').innerHTML=icons.map(([h,p,b])=>`<div class="card">${svg(b,'big')}<div><h2>${h}</h2><p>${p}</p><div class="small">${svg(b,'circ')}${svg(b,'sq')}<span>circle / square crop</span></div></div></div>`).join('');
+document.getElementById('home').innerHTML=icons.map(([h,,b])=>`<div class="app">${svg(b)}<span>${h.split('· ')[1]}</span></div>`).join('');
+</script></body></html>
