@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TextInput, View,
+  Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import KeyboardSafeView, { useRevealRow } from '../components/KeyboardSafeView';
 import { fmt, parseNum } from '../numbers';
 import { workout as t } from '../theme';
 
@@ -26,7 +26,9 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
   const [rows, setRows] = useState(() => rowsFor(items));
   const [saved, setSaved] = useState(false);
   const [activeId, setActiveId] = useState(null);
+  const [keyboardUp, setKeyboardUp] = useState(false);
   const insets = useSafeAreaInsets();
+  const scroller = useRevealRow();
   const inputs = useRef({});
   const focusKey = useRef(null);
   const activeRef = useRef(active);
@@ -85,7 +87,7 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
       onSubmitEditing={() => onSubmit(i, field)}
       submitBehavior="submit"
       returnKeyType="next"
-      onFocus={() => setActiveId(r.id)}
+      onFocus={() => { setActiveId(r.id); scroller.reveal(r.id); }}
       onBlur={() => setActiveId((a) => (a === r.id ? null : a))}
       cursorColor={t.blue}
       selectionColor={t.blue}
@@ -97,7 +99,7 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
   return (
     <View style={[styles.flex, { backgroundColor: t.bg }]}>
       {header}
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardSafeView onKeyboardChange={setKeyboardUp}>
         <View style={styles.cols}>
           <Text style={[styles.colHead, styles.flex, styles.left]}>Exercise</Text>
           <Text style={[styles.colHead, styles.num]}>Sets</Text>
@@ -105,12 +107,12 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
           <Text style={[styles.colHead, styles.num]}>Reps</Text>
         </View>
 
-        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled" {...scroller.scrollProps}>
           {rows.map((r, i) => {
             const cont = i > 0 && !r.exercise.trim() && !isEmpty(r);
             const last = i === rows.length - 1;
             return (
-              <View key={r.id} style={[styles.row, cont && styles.contRow, r.id === activeId && styles.activeRow]}>
+              <View key={r.id} onLayout={scroller.track(r.id)} style={[styles.row, cont && styles.contRow, r.id === activeId && styles.activeRow]}>
                 {input(r, i, 'exercise', {
                   style: [styles.exercise, styles.flex, cont && styles.contText],
                   placeholder: cont ? '↳ same exercise' : last ? 'Add exercise…' : '',
@@ -124,13 +126,13 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
           })}
         </ScrollView>
 
-        <View style={[styles.footer, { paddingBottom: insets.bottom + 18 }]}>
+        <View style={[styles.footer, { paddingBottom: keyboardUp ? 10 : insets.bottom + 18 }]}>
           <Text style={styles.savedMsg}>{saved ? 'Saved' : ''}</Text>
           <Pressable testID="save" onPress={save} style={({ pressed }) => [styles.tick, pressed && { opacity: 0.7 }]}>
             <Text style={styles.tickText}>✓</Text>
           </Pressable>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardSafeView>
     </View>
   );
 }

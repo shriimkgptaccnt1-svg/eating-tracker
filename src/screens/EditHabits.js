@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react';
 import {
-  Alert, Animated, KeyboardAvoidingView, Modal, PanResponder, Platform, Pressable,
+  Alert, Animated, Modal, PanResponder, Pressable,
   ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenHeader } from '../components/Header';
+import KeyboardSafeView from '../components/KeyboardSafeView';
 import { isDaily, newHabitId, targetLabel } from '../habits';
 import { common, habit as t, looks } from '../theme';
 
@@ -129,13 +130,15 @@ function HabitSheet({ habit, onSave, onClose }) {
   const [name, setName] = useState(habit?.name || '');
   const [daily, setDaily] = useState(habit ? isDaily(habit) : true);
   const [perWeek, setPerWeek] = useState(habit && !isDaily(habit) ? habit.target : 3);
+  const [keyboardUp, setKeyboardUp] = useState(false);
   const canSave = name.trim().length > 0;
 
   return (
-    <Modal transparent animationType="slide" onRequestClose={onClose}>
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    // Full-screen (translucent) so the panel can sit right on top of the keyboard.
+    <Modal transparent statusBarTranslucent navigationBarTranslucent animationType="slide" onRequestClose={onClose}>
+      <KeyboardSafeView onKeyboardChange={setKeyboardUp}>
         <Pressable style={styles.dim} onPress={onClose} />
-        <View style={[styles.sheet, { paddingBottom: insets.bottom + 20 }]}>
+        <View style={[styles.sheet, { paddingBottom: keyboardUp ? 16 : insets.bottom + 20 }]}>
           <View style={styles.grab} />
           <Text style={styles.sheetTitle}>{habit ? 'Edit habit' : 'New habit'}</Text>
           <TextInput
@@ -172,7 +175,7 @@ function HabitSheet({ habit, onSave, onClose }) {
             <Text style={styles.btnText}>{habit ? 'Save' : 'Add habit'}</Text>
           </Pressable>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardSafeView>
     </Modal>
   );
 }

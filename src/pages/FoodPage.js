@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TextInput, View,
+  Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import KeyboardSafeView, { useRevealRow } from '../components/KeyboardSafeView';
 import { fmt, parseNum } from '../numbers';
 import { common, food as t } from '../theme';
 
@@ -20,7 +20,9 @@ export default function FoodPage({ header, active, dateKey, items, weight, onSav
   const [saved, setSaved] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const [weightFocused, setWeightFocused] = useState(false);
+  const [keyboardUp, setKeyboardUp] = useState(false);
   const insets = useSafeAreaInsets();
+  const scroller = useRevealRow();
   const inputs = useRef({});
   const focusId = useRef(null);
   const activeRef = useRef(active);
@@ -67,10 +69,20 @@ export default function FoodPage({ header, active, dateKey, items, weight, onSav
 
   const saveWeight = () => onSaveWeight(dateKey, parseNum(weightText));
 
+  const cleanRows = (rs) => rs
+    .filter((r) => r.food.trim())
+    .map((r) => ({ food: r.food.trim(), cost: parseNum(r.cost) }));
+
+  // Deleting saves straight away, so a removed food doesn't come back.
+  const remove = (id) => {
+    const next = rows.filter((r) => r.id !== id);
+    setRows(next);
+    setActiveId((a) => (a === id ? null : a));
+    onSave(dateKey, cleanRows(next));
+  };
+
   const save = async () => {
-    const clean = rows
-      .filter((r) => r.food.trim())
-      .map((r) => ({ food: r.food.trim(), cost: parseNum(r.cost) }));
+    const clean = cleanRows(rows);
     Keyboard.dismiss();
     await Promise.all([onSave(dateKey, clean), saveWeight()]);
     setRows(rowsFor(clean));
@@ -79,7 +91,7 @@ export default function FoodPage({ header, active, dateKey, items, weight, onSav
 
   const lastIndex = rows.length - 1;
   const focusProps = (id) => ({
-    onFocus: () => setActiveId(id),
+    onFocus: () => { setActiveId(id); scroller.reveal(id); },
     onBlur: () => setActiveId((a) => (a === id ? null : a)),
     cursorColor: t.accent,
     selectionColor: t.accent,
@@ -88,15 +100,16 @@ export default function FoodPage({ header, active, dateKey, items, weight, onSav
   return (
     <View style={[styles.flex, { backgroundColor: t.bg }]}>
       {header}
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardSafeView onKeyboardChange={setKeyboardUp}>
         <View style={styles.colHeads}>
           <Text style={[styles.colHead, styles.flex]}>What I ate</Text>
           <Text style={[styles.colHead, styles.costCol]}>Cost</Text>
+          <View style={styles.delCol} />
         </View>
 
-        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled">
+        <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled" {...scroller.scrollProps}>
           {rows.map((r, i) => (
-            <View key={r.id} style={[styles.row, r.id === activeId && styles.activeRow]}>
+            <View key={r.id} onLayout={scroller.track(r.id)} style={[styles.row, r.id === activeId && styles.activeRow]}>
               <TextInput
                 ref={(el) => { inputs.current[r.id] = el; }}
                 style={[styles.food, styles.flex]}
@@ -119,11 +132,22 @@ export default function FoodPage({ header, active, dateKey, items, weight, onSav
                 placeholderTextColor={common.faint}
                 {...focusProps(r.id)}
               />
+              {r.food.trim() || r.cost.trim() ? (
+                <Pressable
+                  hitSlop={8}
+                  onPress={() => remove(r.id)}
+                  accessibilityLabel={`Delete ${r.food || 'row'}`}
+                  style={({ pressed }) => [styles.del, pressed && { opacity: 0.5 }]}
+                >
+                  <Text style={styles.delText}>×</Text>
+                </Pressable>
+              ) : <View style={styles.delCol} />}
             </View>
           ))}
         </ScrollView>
 
-        <View style={[styles.footer, { paddingBottom: insets.bottom + 18 }]}>
+        {/* With the keyboard up it covers the system bar, so only a small gap is needed. */}
+        <View style={[styles.footer, { paddingBottom: keyboardUp ? 10 : insets.bottom + 18 }]}>
           <Pressable
             onPress={() => inputs.current.weight?.focus()}
             style={[styles.weightBox, weightFocused && styles.weightBoxOn]}
@@ -152,7 +176,7 @@ export default function FoodPage({ header, active, dateKey, items, weight, onSav
             <Text style={styles.tickText}>✓</Text>
           </Pressable>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardSafeView>
     </View>
   );
 }
@@ -165,8 +189,11 @@ const styles = StyleSheet.create({
   // Margin + padding add up to the normal 20 so text doesn't shift when a row becomes active.
   activeRow: { backgroundColor: t.activeRow, borderRadius: 12, marginHorizontal: 10, paddingHorizontal: 10, borderColor: 'transparent' },
   food: { fontSize: 18, color: t.text, paddingVertical: 14, minWidth: 0, outlineWidth: 0 },
-  costCol: { width: 80, textAlign: 'right' },
-  cost: { width: 80, fontSize: 16, color: common.muted, textAlign: 'right', paddingVertical: 14, outlineWidth: 0 },
+  costCol: { width: 72, textAlign: 'right' },
+  cost: { width: 72, fontSize: 16, color: common.muted, textAlign: 'right', paddingVertical: 14, outlineWidth: 0 },
+  delCol: { width: 30 },
+  del: { width: 26, height: 26, marginLeft: 4, borderRadius: 13, backgroundColor: 'rgba(237,77,139,0.12)', alignItems: 'center', justifyContent: 'center' },
+  delText: { fontSize: 18, lineHeight: 20, fontWeight: '600', color: t.accent },
   footer: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingTop: 16, gap: 14 },
   weightBox: { minWidth: 112, borderRadius: 16, backgroundColor: '#fff', paddingHorizontal: 14, paddingVertical: 8, borderWidth: 1, borderColor: t.softLine },
   weightBoxOn: { minWidth: 160, borderWidth: 2, borderColor: t.accent },
