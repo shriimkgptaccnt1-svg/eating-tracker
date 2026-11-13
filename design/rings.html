@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Three rings variations</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:28px;width:1180px}
+h1{font-size:20px;margin-bottom:4px}.sub{font-size:13px;opacity:.75;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:rgba(255,255,255,.06);border-radius:18px;padding:16px;text-align:center}
+.card svg.big{width:170px;height:170px;border-radius:38px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.card h2{font-size:14px;margin:12px 0 4px}.card p{font-size:11.5px;opacity:.75;line-height:1.45;min-height:50px}
+.small{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.small svg{width:40px;height:40px}.small .c{border-radius:50%}.small .s{border-radius:11px}
+.home{margin-top:26px;background:linear-gradient(160deg,#3b4f7a,#1d2840);border-radius:24px;padding:24px 30px}
+.home h1{margin-bottom:14px}
+.row{display:flex;gap:26px;flex-wrap:wrap}
+.app{display:flex;flex-direction:column;align-items:center;gap:7px;width:74px}
+.app svg{width:58px;height:58px;border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.app span{font-size:12px}
+.light{background:linear-gradient(160deg,#f3efe9,#d9e2ec);color:#1C1C1E}
+</style></head><body>
+<h1>Trio: three-rings variations</h1><div class="sub">Outer ring = food (pink), middle = habits (green), inner = workout (blue). Shown big, in circle and square crops, and on dark and light home screens.</div>
+<div class="grid" id="grid"></div>
+<div class="home"><h1>Dark wallpaper</h1><div class="row" id="home1"></div></div>
+<div class="home light"><h1>Light wallpaper</h1><div class="row" id="home2"></div></div>
+<script>
+const P='#ED4D8B',PL='#F3A8BB',PE='#F8BF80',G='#728C5A',GD='#102F15',GL='#EAF1B1',B='#0A6CF2',C='#17C2FF',N='#001D4F',A='#FFB703',CR='#FFFDF8';
+let uid=0;
+function rings(o){
+  // o: bg, track (opacity), cols [outer,mid,inner] (color or [c1,c2] gradient), ends [deg...], w, radii, extra, gap
+  const id=++uid, w=o.w||52, R=o.radii||[170,108,46];
+  let d=`<defs>${o.defs||''}`;
+  o.cols.forEach((c,i)=>{ if(Array.isArray(c)) d+=`<linearGradient id="g${id}_${i}" gradientUnits="userSpaceOnUse" x1="${256-R[i]}" y1="${256-R[i]}" x2="${256+R[i]}" y2="${256+R[i]}"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient>`;});
+  d+='</defs>';
+  let s=d+`<rect width="512" height="512" fill="${o.bg}"/>`;
+  R.forEach((r,i)=>{
+    const col=Array.isArray(o.cols[i])?`url(#g${id}_${i})`:o.cols[i];
+    const solid=Array.isArray(o.cols[i])?o.cols[i][1]:o.cols[i];
+    if(o.track!==0) s+=`<circle cx="256" cy="256" r="${r}" fill="none" stroke="${o.trackCol||solid}" stroke-opacity="${o.track??.15}" stroke-width="${w}"/>`;
+    const end=o.ends[i];
+    if(end>=360) s+=`<circle cx="256" cy="256" r="${r}" fill="none" stroke="${col}" stroke-width="${w}"/>`;
+    else{const a0=-Math.PI/2,a1=(end-90)*Math.PI/180;s+=`<path d="M${256} ${256-r} A${r} ${r} 0 ${end>180?1:0} 1 ${256+r*Math.cos(a1)} ${256+r*Math.sin(a1)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;}
+  });
+  return s+(o.extra||'');
+}
+const V=[
+ ['A · Original','Cream background, solid rings. Friendly and bright.',rings({bg:CR,cols:[P,G,B],ends:[290,250,320]})],
+ ['B · Night','The same rings on deep navy, so the colours glow. It stands out on light wallpapers.',rings({bg:N,cols:[P,'#9DBB7E',C],ends:[290,250,320],track:.22})],
+ ['C · Tab gradients','Each ring uses its tab’s gradient: pink→peach, lime→forest, pale blue→cyan. It matches the app exactly.',rings({bg:CR,cols:[[P,PE],[GL,GD],['#7FD8FF',B]],ends:[290,250,320],track:.12,trackCol:'#9AA3B5'})],
+ ['D · Pastel backdrop','Solid rings on a soft pink→lime→blue background, with white tracks.',rings({bg:'url(#bgsoft)',defs:`<linearGradient id="bgsoft" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FCE3EA"/><stop offset=".5" stop-color="#F2F7D9"/><stop offset="1" stop-color="#DDF5FF"/></linearGradient>`,cols:[P,G,B],ends:[290,250,320],track:.8,trackCol:'#fff'})],
+ ['E · Rings + tick','Food and habit rings, with a workout-blue tick in the centre instead of the third ring. It says “done”.',rings({bg:CR,cols:[P,G],ends:[300,260],radii:[170,108]})+`<path d="M222 258 L248 284 L294 232" fill="none" stroke="${B}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>`],
+ ['F · All closed','All three rings complete, the “perfect day”. It’s calmer and more symmetrical, like a target.',rings({bg:CR,cols:[P,G,B],ends:[360,360,360],track:0})],
+ ['G · Thin & airy','Thinner rings with more space between them. It looks more elegant and minimal.',rings({bg:CR,cols:[P,G,B],ends:[290,250,320],w:32,radii:[176,124,72],track:.13})],
+ ['H · Forest dark','Light pink, lime and cyan rings on the dark forest green from the habits tab. It’s rich and moody.',rings({bg:GD,cols:[PL,GL,C],ends:[290,250,320],track:.2})],
+];
+const svg=(b,cls='')=>`<svg class="${cls}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${b}</svg>`;
+document.getElementById('grid').innerHTML=V.map(([h,p,b])=>`<div class="card">${svg(b,'big')}<h2>${h}</h2><p>${p}</p><div class="small">${svg(b,'c')}${svg(b,'s')}</div></div>`).join('');
+const home=V.map(([h,,b])=>`<div class="app">${svg(b)}<span>${h.split(' · ')[0]}</span></div>`).join('');
+document.getElementById('home1').innerHTML=home;document.getElementById('home2').innerHTML=home;
+</script></body></html>
