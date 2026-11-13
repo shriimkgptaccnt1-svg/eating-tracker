@@ -69,10 +69,26 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
     setRows((rs) => [...rs, nr]);
   };
 
+  const cleanRows = (rs) => rs
+    .filter((r) => !isEmpty(r))
+    .map((r) => ({ exercise: r.exercise.trim(), sets: parseNum(r.sets), kg: parseNum(r.kg), reps: parseNum(r.reps) }));
+
+  // Deleting an exercise also removes its extra-set rows (no name) right under it, so they don't
+  // attach to the exercise above. Deleting saves straight away.
+  const remove = (index) => {
+    let end = index + 1;
+    if (rows[index].exercise.trim()) {
+      while (end < rows.length && !rows[end].exercise.trim() && !isEmpty(rows[end])) end++;
+    }
+    const gone = rows.slice(index, end).map((r) => r.id);
+    const next = rows.filter((_, i) => i < index || i >= end);
+    setRows(next);
+    setActiveId((a) => (gone.includes(a) ? null : a));
+    onSave(dateKey, cleanRows(next));
+  };
+
   const save = async () => {
-    const clean = rows
-      .filter((r) => !isEmpty(r))
-      .map((r) => ({ exercise: r.exercise.trim(), sets: parseNum(r.sets), kg: parseNum(r.kg), reps: parseNum(r.reps) }));
+    const clean = cleanRows(rows);
     Keyboard.dismiss();
     await onSave(dateKey, clean);
     setRows(rowsFor(clean));
@@ -105,6 +121,7 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
           <Text style={[styles.colHead, styles.num]}>Sets</Text>
           <Text style={[styles.colHead, styles.kg]}>kg</Text>
           <Text style={[styles.colHead, styles.num]}>Reps</Text>
+          <View style={styles.delCol} />
         </View>
 
         <ScrollView style={styles.flex} keyboardShouldPersistTaps="handled" {...scroller.scrollProps}>
@@ -121,6 +138,16 @@ export default function WorkoutPage({ header, active, dateKey, items, onSave }) 
                 {input(r, i, 'sets', { style: [styles.cell, styles.num], keyboardType: 'number-pad', placeholder: '–' })}
                 {input(r, i, 'kg', { style: [styles.cell, styles.kg], keyboardType: 'decimal-pad', placeholder: '–' })}
                 {input(r, i, 'reps', { style: [styles.cell, styles.num], keyboardType: 'number-pad', placeholder: '–' })}
+                {isEmpty(r) ? <View style={styles.delCol} /> : (
+                  <Pressable
+                    hitSlop={8}
+                    onPress={() => remove(i)}
+                    accessibilityLabel={`Delete ${r.exercise || 'set'}`}
+                    style={({ pressed }) => [styles.del, pressed && { opacity: 0.5 }]}
+                  >
+                    <Text style={styles.delText}>×</Text>
+                  </Pressable>
+                )}
               </View>
             );
           })}
@@ -142,8 +169,11 @@ const styles = StyleSheet.create({
   cols: { flexDirection: 'row', gap: 6, paddingHorizontal: 18, paddingTop: 14, paddingBottom: 6 },
   colHead: { fontSize: 11, fontWeight: '700', letterSpacing: 0.5, textTransform: 'uppercase', color: 'rgba(0,29,79,0.55)', textAlign: 'center' },
   left: { textAlign: 'left' },
-  num: { width: 50, textAlign: 'center' },
-  kg: { width: 62, textAlign: 'center' },
+  num: { width: 44, textAlign: 'center' },
+  kg: { width: 56, textAlign: 'center' },
+  delCol: { width: 26 },
+  del: { width: 26, height: 26, borderRadius: 13, backgroundColor: 'rgba(10,108,242,0.12)', alignItems: 'center', justifyContent: 'center' },
+  delText: { fontSize: 18, lineHeight: 20, fontWeight: '600', color: t.blue },
   row: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 18, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'rgba(0,29,79,0.12)', borderWidth: 0 },
   contRow: { borderTopWidth: 0 },
   // Margin + padding add up to the normal 18 so text doesn't shift when a row becomes active.
