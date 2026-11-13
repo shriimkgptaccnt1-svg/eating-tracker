@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Ring colour options</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:28px;width:1180px}
+h1{font-size:20px;margin-bottom:4px}.sub{font-size:13px;opacity:.75;margin-bottom:18px;max-width:1040px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:rgba(255,255,255,.06);border-radius:18px;padding:14px}
+.tiles{display:flex;gap:8px}
+.tile{flex:1;border-radius:14px;padding:12px 0 8px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.tile svg{width:92px;height:92px}
+.tile span{font-size:10px;opacity:.7}
+.dark{background:linear-gradient(160deg,#2b3a5c,#121a2c)}
+.light{background:linear-gradient(160deg,#f4efe8,#d7e0ea);color:#1C1C1E}
+.card h2{font-size:14px;margin:12px 0 4px}.card p{font-size:11.5px;opacity:.75;line-height:1.4;min-height:48px}
+.sw{display:flex;gap:6px;margin-top:8px}
+.sw div{flex:1;font-size:9.5px;text-align:center;opacity:.85}
+.sw i{display:block;height:16px;border-radius:5px;margin-bottom:3px}
+</style></head><body>
+<h1>Trio: colour options for the three solid rings</h1>
+<div class="sub">The same solid-ring icon with no background, in 8 colour sets. Outer ring = food, middle = habits, inner = workout. Each is shown on a dark and a light wallpaper, since colours behave differently on each.</div>
+<div class="grid" id="grid"></div>
+<script>
+const sets=[
+ ['1 · Current','The pink, sage and blue from the app.',['#ED4D8B','#728C5A','#0A6CF2']],
+ ['2 · Brighter green','Same pink and blue, with a fresher leaf green that stands out more on dark wallpapers.',['#ED4D8B','#7FB23E','#0A6CF2']],
+ ['3 · Neon','Hot pink, lime and cyan. Very punchy, like a fitness tracker.',['#FF2D78','#A6E22E','#17C2FF']],
+ ['4 · Pastel','Soft pink, soft green and sky blue, matching the light ends of the app’s top bars. Gentle and calm.',['#F3A8BB','#B9CC86','#7FD8FF']],
+ ['5 · Sunset → sea','Peach outside, sage in the middle, cyan inside. Warm on the outside, cool on the inside.',['#F8BF80','#728C5A','#17C2FF']],
+ ['6 · Pink, green, amber','Swaps the blue for the workout amber accent, so the centre glows.',['#ED4D8B','#728C5A','#FFB703']],
+ ['7 · Deep jewel','Raspberry, forest and royal blue. Rich and grown-up, best on light wallpapers.',['#C2185B','#2F5D2A','#1E40AF']],
+ ['8 · Fairy','Purple, periwinkle and cyan from your first palette. A different, dreamy look (not tied to the section colours).',['#A163F7','#6F88FC','#45E3FF']],
+];
+const R=[200,134,68],W=58,ends=[290,250,320];
+function icon([o,m,i],dark){
+  const cols=[o,m,i],track=dark?'#ffffff':'#1C1C1E',op=dark?.18:.1;
+  let s='';
+  R.forEach((r,k)=>{s+=`<circle cx="256" cy="256" r="${r}" fill="none" stroke="${track}" stroke-opacity="${op}" stroke-width="${W}"/>`;
+   const a=(ends[k]-90)*Math.PI/180;
+   s+=`<path d="M256 ${256-r} A${r} ${r} 0 1 1 ${256+r*Math.cos(a)} ${256+r*Math.sin(a)}" fill="none" stroke="${cols[k]}" stroke-width="${W}" stroke-linecap="round"/>`;});
+  return `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${s}</svg>`;
+}
+document.getElementById('grid').innerHTML=sets.map(([h,p,c])=>`<div class="card"><div class="tiles"><div class="tile dark">${icon(c,true)}<span>Trio</span></div><div class="tile light">${icon(c,false)}<span>Trio</span></div></div>
+ <h2>${h}</h2><p>${p}</p><div class="sw">${['food','habits','workout'].map((n,k)=>`<div><i style="background:${c[k]}"></i>${n}<br>${c[k]}</div>`).join('')}</div></div>`).join('');
+</script></body></html>
