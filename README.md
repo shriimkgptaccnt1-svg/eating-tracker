@@ -1,4 +1,4 @@
-# Eat Out
+# Trio
 
 Daily tracker with three swipeable tabs, all sharing one date (use ‹ › to change the day, and tap the date to jump back to today).
 
@@ -10,6 +10,8 @@ Daily tracker with three swipeable tabs, all sharing one date (use ‹ › to ch
   Logging a workout ticks the Workout habit. The calendar icon shows which days you worked out.
 
 Everything is stored on the phone (AsyncStorage).
+
+The app icon is generated from `design/icon-src/` (`node design/icon-src/render.js`).
 
 ## Run
 
@@ -24,7 +26,7 @@ GitHub builds the APK automatically (`.github/workflows/build-apk.yml`):
 
 1. Push this project to a GitHub repo on the `main` branch.
 2. Wait about 10–15 minutes for the **Build APK** job in the repo's **Actions** tab to finish.
-3. On your phone, open the repo's **Releases** page, then **latest**, then `eat-out.apk`.
+3. On your phone, open the repo's **Releases** page, then **latest**, then `trio.apk`.
 4. Tap the downloaded file, then allow "Install unknown apps" for your browser when Android asks.
 
 Every push to `main` rebuilds it. To update the app on your phone, install the new APK over the old one. Your saved entries are kept.

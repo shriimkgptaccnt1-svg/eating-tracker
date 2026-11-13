@@ -41,6 +41,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp android/app/build/outputs/apk/release/app-release.apk eat-out.apk
+          cp android/app/build/outputs/apk/release/app-release.apk trio.apk
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest eat-out.apk --title "Eat Out (latest build)" --notes "Built from ${GITHUB_SHA::7}"
+          gh release create latest trio.apk --title "Trio (latest build)" --notes "Built from ${GITHUB_SHA::7}"
