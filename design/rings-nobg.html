@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Rings without background</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#2A3950;color:#fff;padding:28px;width:1180px}
+h1{font-size:20px;margin-bottom:4px}.sub{font-size:13px;opacity:.75;margin-bottom:18px;max-width:1000px}
+.walls{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.wall{border-radius:22px;padding:22px 16px 26px}
+.wall h2{font-size:14px;margin-bottom:16px;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 6px}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px}
+.app svg{width:64px;height:64px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.app span{font-size:11px;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.big{display:flex;gap:30px;justify-content:center;margin:6px 0 22px;flex-wrap:wrap}
+.big div{text-align:center;font-size:13px}
+.big svg{width:150px;height:150px;background:repeating-conic-gradient(#3a4a66 0 25%,#33425c 0 50%) 0 0/20px 20px;border-radius:16px}
+</style></head><body>
+<h1>Three rings without a background</h1>
+<div class="sub">The rings sit straight on your wallpaper (the checkerboard below shows the see-through areas). A, C and G keep a faint light "track" behind each ring so the unfilled part still reads; F has no tracks because its rings are full.</div>
+<div class="big" id="big"></div>
+<div class="walls" id="walls"></div>
+<script>
+const P='#ED4D8B',PE='#F8BF80',G='#728C5A',GD='#102F15',GL='#EAF1B1',B='#0A6CF2',C='#17C2FF';
+let uid=0;
+function rings(o){
+  const id=++uid,w=o.w||52,R=o.radii||[200,134,68];
+  let s='<defs>';
+  o.cols.forEach((c,i)=>{if(Array.isArray(c))s+=`<linearGradient id="g${id}_${i}" gradientUnits="userSpaceOnUse" x1="${256-R[i]}" y1="${256-R[i]}" x2="${256+R[i]}" y2="${256+R[i]}"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient>`;});
+  s+='</defs>';
+  R.forEach((r,i)=>{
+    const col=Array.isArray(o.cols[i])?`url(#g${id}_${i})`:o.cols[i];
+    if(o.track) s+=`<circle cx="256" cy="256" r="${r}" fill="none" stroke="${o.trackCol}" stroke-opacity="${o.track}" stroke-width="${w}"/>`;
+    const end=o.ends[i];
+    if(end>=360) s+=`<circle cx="256" cy="256" r="${r}" fill="none" stroke="${col}" stroke-width="${w}"/>`;
+    else{const a1=(end-90)*Math.PI/180;s+=`<path d="M256 ${256-r} A${r} ${r} 0 ${end>180?1:0} 1 ${256+r*Math.cos(a1)} ${256+r*Math.sin(a1)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;}
+  });
+  return s;
+}
+const V=[
+ ['A · Solid','Solid colours with a light track',rings({cols:[P,G,B],ends:[290,250,320],w:58,track:.35,trackCol:'#ffffff'})],
+ ['C · Gradients','Tab gradients with a light track',rings({cols:[[P,PE],['#B9CC86',GD],['#7FD8FF',B]],ends:[290,250,320],w:58,track:.35,trackCol:'#ffffff'})],
+ ['F · All closed','Three full rings, no track',rings({cols:[P,G,B],ends:[360,360,360],w:58})],
+ ['G · Thin','Thin rings with a light track',rings({cols:[P,G,B],ends:[290,250,320],w:38,radii:[206,150,94],track:.35,trackCol:'#ffffff'})],
+];
+const svg=b=>`<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${b}</svg>`;
+document.getElementById('big').innerHTML=V.map(([h,,b])=>`<div>${svg(b)}<br>${h}</div>`).join('');
+const walls=[
+ ['Dark wallpaper','linear-gradient(160deg,#2b3a5c,#121a2c)'],
+ ['Light wallpaper','linear-gradient(160deg,#f4efe8,#d7e0ea)'],
+ ['Photo-style wallpaper','radial-gradient(circle at 20% 20%,#f6c9a4,transparent 45%),radial-gradient(circle at 80% 70%,#5d8a9e,transparent 55%),linear-gradient(160deg,#c98f8a,#3e5a6e)'],
+];
+document.getElementById('walls').innerHTML=walls.map(([t,bg],i)=>`<div class="wall" style="background:${bg};color:${i===1?'#1C1C1E':'#fff'}"><h2 style="${i===1?'text-shadow:none':''}">${t}</h2><div class="row">${V.map(([h,,b])=>`<div class="app">${svg(b)}<span style="${i===1?'text-shadow:none':''}">Trio<br><small style="opacity:.7">${h.split(' · ')[0]}</small></span></div>`).join('')}</div></div>`).join('');
+</script></body></html>
